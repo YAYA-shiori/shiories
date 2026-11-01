@@ -7,18 +7,18 @@ craftmanw,Ukagaka Tech Team
 craftmanurl,https://ukatech.shillest.net/
 homeurl,https://yaya-shiori.github.io/shiories/shiories_balloon/
 
-origin.x,13
+origin.x,10
 origin.y,11
 
 windowposition.x,center
 windowposition.y,0
 
-validrect.left,13
+validrect.left,10
 validrect.top,13
-validrect.right,-18
+validrect.right,-16
 validrect.bottom,-28
 
-wordwrappoint.x,-22
+wordwrappoint.x,-20
 wordwrappoint.y,0
 
 font.name,ＭＳ ゴシック
@@ -51,26 +51,26 @@ arrow1.x,-15
 arrow1.y,-32
 
 onlinemarker.x,87
-onlinemarker.y,-25
+onlinemarker.y,-22
 
 sstpmarker.x,15
-sstpmarker.y,-25
+sstpmarker.y,-22
 
 sstpmessage.font.height,11
 sstpmessage.font.color.r,94
 sstpmessage.font.color.g,97
 sstpmessage.font.color.b,107
 sstpmessage.x,28
-sstpmessage.y,-25
+sstpmessage.y,-22
 
 number.font.height,11
 number.font.color.r,94
 number.font.color.g,97
 number.font.color.b,107
 number.xr,-22
-number.y,-25
+number.y,-22
 
 communicatebox.x,13
-communicatebox.y,21
+communicatebox.y,25
 communicatebox.width,375
-communicatebox.height,20
+communicatebox.height,22

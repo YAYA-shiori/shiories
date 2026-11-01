@@ -95,18 +95,19 @@
 | スコープ | 吹き出しの画像 | 大きさ | アンカーとカーソル |
 |---|---|---|---|
 | `\0` 華和梨 | `balloons0.png` | 250x200 | sub（`balloons0s.txt`） |
+| `\0` 華和梨（縦長、`\b[2]`） | `balloons2.png` | 250x400（`balloons0.png` の倍の高さ） | sub（`balloons2s.txt`） |
 | `\1` 里々 | `balloonk0.png` | 250x159 | main（`balloonk0s.txt`） |
 | `\p[2]` 文（YAYA） | `balloonp2def0.png` | 250x159 | main（`balloonp2def0s.txt`） |
 | `\p[3]` 里珠（ゲスト） | `balloonp3def0.png` | 250x159 | `descript.txt` の共通の色（focus の `#2f6fd6`） |
 
-- 形は直線だけで作る。角は丸めず、4px の 45° の面取りにする（`SSTP` マーカーは 1px）。影とグラデーションは無い。
+- 形は直線だけで作る。角は丸めず、4px の 45° の面取りにする（`marker*` は 1px）。影とグラデーションは無い。
 - 吹き出しは、地を生成り（bg の `#fafaf8`）の無地にし、1px の main の枠で囲む。上端に帯を置く。main の 3px（枠の行を含む）の下に sub の 1px。サムネイルの帯（main 6px と sub 2px）の比のまま縮めてある。帯は面取りの斜めの線で切る。左右に線は引かない。文字は共通で墨色（ink の `#1c1d21`）。
 - 尾は、下端の中央（x = 124）に付ける直角三角形。左の辺は垂直、右の辺は 45°。幅 9px、高さ 9px で、先端が画像の最下行（左端 x = 124）に来る。吹き出しの本体の最下行は、画像の下から 10 行目（`descript.txt` の下端基準の位置、`-25` `-32` の基準になる）。
-- 矢印（`arrows*` `arrowk*` `arrowp2def*` `arrowp3def*`）は、幅 13px、高さ 7px の塗りの三角形（45° の辺）を 13x13 の地の中央に置く。SSTP のマーカー（`sstp_new*`）は 9x9 の四角、オンライン表示（`onlines*` `onlinek*` `onlinep2def*` `onlinep3def*`）は 5x7 の画素の字で `ONLINE` を書き、左右に 1px の線を引く。2 コマで、sub の 3x3 の印が左端と右端を行き来する。どれも組ごとの色（main。オンライン表示の印は sub）。`arrow0/1`、`sstp.png`、`online0/1`、入力ボックス（`balloonc0-5.png`）は、組に属さない色（ゲストと同じ無彩色）。
+- 矢印（`arrows*` `arrowk*` `arrowp2def*` `arrowp3def*`）は、幅 13px、高さ 7px の塗りの三角形（45° の辺）を 13x13 の地の中央に置く。クリック待ち（`clickwait` `clickwaits` `clickwaitk` `clickwaitp2def` `clickwaitp3def`）は、`arrow1` と同じ 13x13（位置も `arrow1` と同じ）で、下向きの山形（幅 10px、高さ 5px、線の太さ 2px）を縦に 2 つ重ねた「`>>` を下に向けた」形。色は組ごとの main。`\![*]` タグのマーカー（`markers` `markerk` `markerp2def` `markerp3def`）は 9x9 の四角（角は 1px 面取り）。SSTP のマーカー（`sstp_new` `sstp_news` `sstp_newk` `sstp_newp2def` `sstp_newp3def`）は、同じ 9x9 に、右向きの山形（幅 4px、高さ 5px、線の太さ 2px）を横に 2 つ並べた「`>>`」。オンライン表示（`onlines*` `onlinek*` `onlinep2def*` `onlinep3def*`）は 5x7 の画素の字で `ONLINE` を書き、左右に 1px の線を引く。2 コマで、sub の 5x5 の印が左端と右端を行き来する。どれも組ごとの色（main。オンライン表示の印は sub）。`arrow0/1`、`marker.png`、`sstp.png`、`online0/1`、入力ボックス（`balloonc0-5.png`）は、組に属さない色（ゲストと同じ無彩色）。
 - 入力ボックスは、吹き出しと同じ作りで、尾が無い。`balloonc0-4.png`（Send / Communicate / Teach / Input / Address Bar）は 400x57、`balloonc5.png`（Textarea、複数行入力）は 400x150。帯の下、左 13px に Consolas 13px、`#5e616b` のラベルを置く（サイトの `--font-mono` に合わせた）。入力欄はラベルの下に置くので、位置は `descript.txt` の `communicatebox.*`（`y` は 21、高さは 20）で、`c5` だけ `balloonc5s.txt` で高さを 113 にしている。
-- 透過色は、画像の中に残した緑（`#00ff00`）。パレット形式の PNG で、緑のまわりに半透明の画素を作らない。矢印、オンライン表示、SSTP のマーカーは、地を緑にせず生成り（bg）で塗る。
+- 透過色は、画像の中に残した緑（`#00ff00`）。パレット形式の PNG で、緑のまわりに半透明の画素を作らない。矢印、クリック待ち、オンライン表示、マーカーは、地を緑にせず生成り（bg）で塗る。
 - `thumbnail.pnr`（メニューに出るロゴ、200x40）は、上端の帯を 4 つに分け（左から華和梨・里々・文・里珠の main と sub）、`SHIORIES` を Consolas の細字で字間を空けて置く。`.pnr` は左上の 1 画素と同じ色が透過になるので、左上は緑にしてある。
-- 本体用の SSTP マーカーの名前は、UKADOC に `sstp_new` と `sstp_news` の両方が出てくるので、どちらも置いてある。矢印、SSTP マーカー、オンライン表示が組ごとに切り替わること、新しい吹き出しの中の文字、マーカー、入力欄の見え方は、SSP では未確認（`balloons0s.txt` などによるアンカーの色の上書きは、SSP で確かめた）。
+- 本体用の SSTP マーカーの名前は、UKADOC に `sstp_new` と `sstp_news` の両方が出てくるので、どちらも置いてある。縦長の吹き出しは本体（`\0`）だけに作ってあり、相方（`balloonk2`）と `\p[2]` 以降（`balloonp*def2`）に縦長を選ぶと、省略時の規則で本体の `balloons2.png` が使われる。矢印、マーカー、オンライン表示が組ごとに切り替わること、新しい吹き出しの中の文字、マーカー、入力欄の見え方は、SSP では未確認（`balloons0s.txt` などによるアンカーの色の上書きは、SSP で確かめた）。
 
 ### 右クリックメニュー（オーナードローメニュー）
 

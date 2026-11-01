@@ -1,11 +1,15 @@
 # Generates the images of the bundled balloon "shiories_balloon" into shiories_balloon/.
 #
 #   balloons0.png          \0 speech balloon (250x200)
+#   balloons2.png          \0 tall speech balloon (250x400, twice as high)
 #   balloonk0.png          \1 speech balloon (250x159)
 #   balloonp2def0.png      \p[2] speech balloon (250x159)
 #   balloonp3def0.png      \p[3] speech balloon (250x159)
 #   balloonc0-4.png        input boxes (400x57), balloonc5.png textarea box (400x150)
-#   arrow*, online*, sstp* scroll arrows (13x13), online marker (77x11), SSTP marker (9x9)
+#   arrow*, clickwait*     scroll arrows and click wait marker (13x13)
+#   online*                online marker (77x11)
+#   marker*                markers of the tags \![*] (a square, 9x9)
+#   sstp*                  SSTP markers (>> pointing right, 9x9)
 #   thumbnail.pnr          logo shown in the balloon menu (200x40)
 #
 # The sizes and the positions of the contents are fixed by shiories_balloon/descript.txt
@@ -162,6 +166,7 @@ $tailH = 9
 $tailX = 124
 foreach ($b in @(
         @{ Name = 'balloons0'; H = 200; Set = 's' },
+        @{ Name = 'balloons2'; H = 400; Set = 's' },
         @{ Name = 'balloonk0'; H = 159; Set = 'k' },
         @{ Name = 'balloonp2def0'; H = 159; Set = 'p2' },
         @{ Name = 'balloonp3def0'; H = 159; Set = 'p3' })) {
@@ -192,6 +197,17 @@ function New-Arrow($up, $color) {
     return $bm
 }
 
+# --- click wait marker 13x13 (same size and place as arrow1): two stacked chevrons pointing down (like >> turned down) ---
+function New-ClickWait($color) {
+    $bm = New-Canvas 13 13 $bg
+    foreach ($y0 in @(1, 7)) {
+        for ($r = 0; $r -lt 5; $r++) {
+            foreach ($x in @((1 + $r), (2 + $r), (11 - $r), (10 - $r))) { $bm.SetPixel($x, $y0 + $r, $color) }
+        }
+    }
+    return $bm
+}
+
 # --- online marker 77x11: ONLINE in a 5x7 pixel font between two lines, a block runs left/right ---
 $glyph = @{
     O = @('01110', '10001', '10001', '10001', '10001', '10001', '01110')
@@ -217,12 +233,12 @@ function New-Online($frame, $main, $sub) {
     $rightStart = $x0 + $textW + 4
     for ($x = 0; $x -le $leftEnd; $x++) { $bm.SetPixel($x, 5, $main) }
     for ($x = $rightStart; $x -le 76; $x++) { $bm.SetPixel($x, 5, $main) }
-    if ($frame -eq 0) { Fill-Rect $bm 0 4 3 3 $sub } else { Fill-Rect $bm 74 4 3 3 $sub }
+    if ($frame -eq 0) { Fill-Rect $bm 0 3 5 5 $sub } else { Fill-Rect $bm 72 3 5 5 $sub }
     return $bm
 }
 
-# --- SSTP marker 9x9: a square with the corner pixels cut (a 2px cut looks round at this size) ---
-function New-Sstp($color) {
+# --- marker 9x9 (shown by the tags of the form \![*]): a square with the corner pixels cut (a 2px cut looks round at this size) ---
+function New-Marker($color) {
     $bm = New-Canvas 9 9 $bg
     for ($y = 0; $y -lt 9; $y++) {
         for ($x = 0; $x -lt 9; $x++) {
@@ -232,23 +248,48 @@ function New-Sstp($color) {
     return $bm
 }
 
+# --- SSTP marker 9x9: two chevrons pointing right (>>), 45 degree sides, 2px thick, 5 high ---
+function New-Sstp($color) {
+    $bm = New-Canvas 9 9 $bg
+    foreach ($x0 in @(1, 5)) {
+        for ($r = 0; $r -lt 5; $r++) {
+            $d = $r
+            if ($r -gt 2) { $d = 4 - $r }
+            foreach ($x in @(($x0 + $d), ($x0 + $d + 1))) { $bm.SetPixel($x, 2 + $r, $color) }
+        }
+    }
+    return $bm
+}
+
 # name suffix -> set used for the colors
 $parts = @(
-    @{ Arrow = 'arrow'; Online = 'online'; Set = 'neu'; Num = $true },
-    @{ Arrow = 'arrows'; Online = 'onlines'; Set = 's'; Num = $true },
-    @{ Arrow = 'arrowk'; Online = 'onlinek'; Set = 'k'; Num = $true },
-    @{ Arrow = 'arrowp2def'; Online = 'onlinep2def'; Set = 'p2'; Num = $true },
-    @{ Arrow = 'arrowp3def'; Online = 'onlinep3def'; Set = 'p3'; Num = $true })
+    @{ Arrow = 'arrow'; Online = 'online'; Click = 'clickwait'; Set = 'neu'; Num = $true },
+    @{ Arrow = 'arrows'; Online = 'onlines'; Click = 'clickwaits'; Set = 's'; Num = $true },
+    @{ Arrow = 'arrowk'; Online = 'onlinek'; Click = 'clickwaitk'; Set = 'k'; Num = $true },
+    @{ Arrow = 'arrowp2def'; Online = 'onlinep2def'; Click = 'clickwaitp2def'; Set = 'p2'; Num = $true },
+    @{ Arrow = 'arrowp3def'; Online = 'onlinep3def'; Click = 'clickwaitp3def'; Set = 'p3'; Num = $true })
 foreach ($p in $parts) {
     $m = $sets[$p.Set].Main
     $sb = $sets[$p.Set].Sub
     $bm = New-Arrow $true $m;  Save-Indexed $bm (Join-Path $OutDir ($p.Arrow + '0.png')); $bm.Dispose()
     $bm = New-Arrow $false $m; Save-Indexed $bm (Join-Path $OutDir ($p.Arrow + '1.png')); $bm.Dispose()
+    $bm = New-ClickWait $m;    Save-Indexed $bm (Join-Path $OutDir ($p.Click + '.png')); $bm.Dispose()
     for ($f = 0; $f -lt 2; $f++) {
         $bm = New-Online $f $m $sb
         Save-Indexed $bm (Join-Path $OutDir ($p.Online + $f + '.png'))
         $bm.Dispose()
     }
+}
+$markers = @(
+    @{ Name = 'marker'; Set = 'neu' },
+    @{ Name = 'markers'; Set = 's' },
+    @{ Name = 'markerk'; Set = 'k' },
+    @{ Name = 'markerp2def'; Set = 'p2' },
+    @{ Name = 'markerp3def'; Set = 'p3' })
+foreach ($mk in $markers) {
+    $bm = New-Marker $sets[$mk.Set].Main
+    Save-Indexed $bm (Join-Path $OutDir ($mk.Name + '.png'))
+    $bm.Dispose()
 }
 $sstp = @(
     @{ Name = 'sstp'; Set = 'neu' },
