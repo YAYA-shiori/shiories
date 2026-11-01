@@ -1,0 +1,9 @@
+{
+  "checks": [
+    {
+      "name": "half",
+      "description": "トークの最初に話すスコープに \\n\\n[half] を付けていないか（GHOST.md「トークの書き方」）",
+      "command": "python -I -X utf8 work/check/check-half.py"
+    }
+  ]
+}

@@ -80,6 +80,7 @@
 - 読点の後は `\w4`、句点・「？」「！」の後は `\w8`、「…」は `…\w8…\w8`。沈黙は `…\w8…\w8`。
 - 同じ話し手の中の改行は `\n`。
 - **話し手を交代するときは、`\n` の直後に `\n[half]` を入れて**から、スコープのタグを書く。`\n\n[half]\1\s[1005]…`。
+- ただし、そのスコープがトークの中で**初めて話すとき**には `\n\n[half]` を付けない（吹き出しの頭に空行ができる）。2 回目以降に話すときだけ付ける。`\_s[0,1]…\_s` で話したスコープは、話し済みとして数える。点検は `work/check/check-half.py`（`.github/ghost-checks.json` に登録してある）で、`scripts/check-custom.ps1 -AllowCustom`（ukagaka-developer）と、GitHub Actions の `auto check` が回す。単独でも `python -I -X utf8 work/check/check-half.py` で点検でき、`--fix` を付けると取り除く。
 - 全員が同時に反応するときは `\_s[0,1,2]…\_s`（同時発話）。
 - ユーザーは `%(username)` で呼ぶ。トークの最後は `\e`。終了のトーク（`Close_*`）は `\e` を付けない（`OnClose` が `\-` を足す）。
 - 振動は `%(Shake)\w8\w8`、テレポートは `%(Teleport)`。
