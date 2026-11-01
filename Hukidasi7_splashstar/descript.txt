@@ -7,18 +7,18 @@ craftmanw,はっぷん/水無月藍
 craftmanurl,http://www.iris.dti.ne.jp/~brook/happen/
 homeurl,https://yaya-shiori.github.io/shiories/Hukidasi7_splashstar/
 
-origin.x,9
+origin.x,13
 origin.y,11
 
 windowposition.x,center
 windowposition.y,0
 
-validrect.left,9
-validrect.top,11
-validrect.right,3
+validrect.left,13
+validrect.top,13
+validrect.right,-18
 validrect.bottom,-28
 
-wordwrappoint.x,-14
+wordwrappoint.x,-22
 wordwrappoint.y,0
 
 font.name,ＭＳ ゴシック
