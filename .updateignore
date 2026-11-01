@@ -1,0 +1,10 @@
+# Files excluded when creating network update files (updates2.dau), gitignore syntax.
+# Starts from the .narignore rules; later lines can add or re-include files.
+include:.narignore
+
+# delete.txt is needed by network updates
+!/delete.txt
+
+# The balloon that comes with the nar is installed to balloon/ by SSP; a network update would only
+# put its files into a folder inside the ghost folder.
+/Hukidasi7_splashstar/
