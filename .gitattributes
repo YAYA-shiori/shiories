@@ -1,0 +1,13 @@
+* text=auto eol=lf
+
+# シェルは元のまま（Shift_JIS、CRLF）にしておく。Git に改行を変換させない
+/shell/** -text
+
+*.dll binary
+*.exe binary
+*.png binary
+*.ico binary
+*.pnr binary
+*.nar binary
+*.dau binary
+*.zip binary

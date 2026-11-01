@@ -1,0 +1,7 @@
+charset,UTF-8
+type,balloon
+name,ふきだし７・すぷらっしゅすたー
+directory,Hukidasi7_splashstar
+refresh,1
+accept,萌えSHIORI～ず
+

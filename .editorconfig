@@ -1,0 +1,26 @@
+root = true
+
+[*]
+charset = utf-8
+end_of_line = lf
+
+[*.{dic,txt}]
+indent_style = tab
+
+# シェルは元のまま Shift_JIS・CRLF。エディタに変換させない
+[shell/**]
+charset = unset
+end_of_line = unset
+indent_style = unset
+
+# バルーンの台詞用ファイル（balloon*s.txt）は書式が決まっているので、インデントを変えない
+[Hukidasi7_splashstar/**]
+indent_style = unset
+
+[*.{ps1,cs}]
+indent_style = space
+indent_size = 4
+
+[*.{json,yml,yaml,lua,md}]
+indent_style = space
+indent_size = 2
