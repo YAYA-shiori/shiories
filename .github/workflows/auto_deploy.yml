@@ -44,6 +44,14 @@ jobs:
         shell: pwsh
         run: ./.github/scripts/build-site.ps1 -OutDir site
 
+      # The same nar is also put on GitHub Releases (see the release job)
+      - name: keep the nar for the release
+        uses: actions/upload-artifact@v4
+        with:
+          name: nar
+          path: site/*.nar
+          if-no-files-found: error
+
       - name: configure pages
         uses: actions/configure-pages@v5
 
@@ -63,3 +71,36 @@ jobs:
       - name: deploy
         id: deployment
         uses: actions/deploy-pages@v4
+
+  release:
+    name: publish the nar to Releases
+    needs: [build, deploy]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    env:
+      GH_TOKEN: ${{ github.token }}
+      GH_REPO: ${{ github.repository }}
+      # The release always points at the commit that was checked and deployed
+      TARGET_SHA: ${{ github.event.workflow_run.head_sha || github.sha }}
+    steps:
+      - name: download the nar
+        uses: actions/download-artifact@v4
+        with:
+          name: nar
+          path: release
+
+      # Keep exactly one release (tag "latest") holding only the newest nar:
+      # delete the previous one together with its tag, then create it again.
+      # The asset keeps the same file name, so
+      # https://github.com/<owner>/<repo>/releases/latest/download/<name>.nar never changes.
+      - name: replace the release
+        run: |
+          if gh release view latest >/dev/null 2>&1; then
+            gh release delete latest --cleanup-tag --yes
+          fi
+          gh release create latest release/*.nar \
+            --target "$TARGET_SHA" \
+            --title "最新版 (${TARGET_SHA::7})" \
+            --notes "Latest nar, built from commit ${TARGET_SHA}. Older files are removed on every deploy." \
+            --latest

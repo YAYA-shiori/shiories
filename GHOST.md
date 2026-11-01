@@ -10,6 +10,7 @@
 - 配布元: Ukagaka Tech Team（https://ukatech.shillest.net/ ）、リポジトリ: https://github.com/YAYA-shiori/shiories
 - ネットワーク更新の URL（`On_homeurl`）は `https://yaya-shiori.github.io/shiories/`（GitHub Pages）。`ghost/master/dic/normal/yaya_homeurl.dic` と `ghost/master/dic/emerg/yaya_homeurl.dic` の 2 か所に書く。この URL の直下に `updates2.dau`、`delete.txt`、nar を GitHub Actions でデプロイする（`updates2.dau` と `updates.txt` は `.gitignore` で除外してある。`ghost/master/dic/system` は submodule で、GitHub の raw からは配れないため）。
 - 配布物は `.github/workflows/auto_deploy.yml` が作る。辞書チェック（`auto check`）が通った `main` / `master` の push ごとに、`.github/scripts/build-site.ps1` が nar（`.narignore` で除外）と更新ファイル一式（`.updateignore` で除外）を作って Pages に出す。手元でも `pwsh ./.github/scripts/build-site.ps1 -OutDir site`（`-ListOnly` で一覧だけ）で同じものが作れる。リポジトリの Settings > Pages > Source は「GitHub Actions」にしておく。
+- nar は GitHub Releases にも置く。タグ `latest` の Release 1 件だけを持ち、デプロイのたびに前の Release をタグごと消して、最新の nar 1 つで作り直す（`auto_deploy.yml` の `release` ジョブ。Pages のデプロイが成功したあとに動く）。固定の URL は `https://github.com/YAYA-shiori/shiories/releases/latest/download/shiories.nar`。
 - 同梱バルーン `Hukidasi7_splashstar/` は nar には入れるが、ゴーストの更新ファイルには入れない（`.updateignore`）。バルーンには単独の `updates2.dau` と `updates.txt` を作り、`https://yaya-shiori.github.io/shiories/Hukidasi7_splashstar/` に出す。`Hukidasi7_splashstar/descript.txt` の `homeurl` がそこを指す。どのバルーンを対象にするかは、`install.txt` の `balloon.directory`（と `balloon.source.directory`）から読む。
 - 旧版の利用者は、旧版が報告する `http://ms.shillest.net/ghost/shiories/` から更新する。この版を届けるには、そちらにも公開する必要がある。
 - 作った人と分担は `readme.txt` にある。
