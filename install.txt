@@ -1,0 +1,7 @@
+charset,UTF-8
+type,ghost
+name,萌えSHIORI～ず
+directory,shiories
+balloon.directory,Hukidasi7_splashstar
+
+refresh,1

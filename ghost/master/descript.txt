@@ -1,0 +1,20 @@
+charset,UTF-8
+
+name,SHIORIES
+id,shiories
+type,ghost
+
+sakura.name,華和梨
+kero.name,里々
+char2.name,文
+char3.name,里珠
+
+title,Moira of ghost
+
+craftman,MaintenanceShop
+craftmanw,整備班
+craftmanurl,http://ms.shillest.net/
+
+shiori,yaya.dll
+icon,icon.ico
+balloon,Hukidasi7_splashstar

@@ -1,0 +1,145 @@
+//******************************************************************************
+// SHIORIES
+// コミュニケート（ユーザーとの会話、他のゴーストとの会話）
+//******************************************************************************
+
+
+//******************************************************************************
+// こちらから話しかける
+//******************************************************************************
+//この関数は、隣に立っているゴーストを探して、TalkTo_??? 関数を呼び出すもの（yaya_tmpl_util にあります）
+StartCommunicate
+{
+	AYATEMPLATE.ExecuteTalkToTalk
+}
+
+TalkToOther
+{
+	'\1\s[1000]\0\s[0]ね、\w8しりとりしましょ？\w8\w8\e'
+}
+
+TalkToNobody
+{
+	'\p[3]\s[-1]\p[2]\s[2000]\1\s[1000]\0\s[0]だれもいないみたいです。\w8\e'
+}
+
+
+//******************************************************************************
+// 話しかけられたので返事する
+//******************************************************************************
+OnCommunicate
+{
+	if reference[0] == "user" || reference[0] == "User" {
+		//---- ユーザーからの話しかけ
+		ReplyToUser
+	}
+	else {
+		//---- ゴーストからの話しかけ
+		AYATEMPLATE.ExecuteReplyToTalk(reference[0])
+	}
+}
+
+//------------------------------------------------------------------------------
+// ユーザーからの話しかけ
+//------------------------------------------------------------------------------
+//どの条件にも該当しなかった場合
+ReplyToUser
+{
+	'\1\s[1000]\0\s[4]ごめん、分かんない…。\e'
+}
+
+//------------------------------------------------------------------------------
+// ゴーストからの話しかけ
+//------------------------------------------------------------------------------
+//陽子への反応
+ReplyTo_陽子
+{
+	//---- 元の辞書では、返事をして会話を終えていた（StopCommunicate）
+	if 'おはよう' _in_ reference[1] {
+		'\1\s[1000]\0\s[11]陽子ちゃん、\w8おはよう！\e'
+	}
+	elseif 'こんばんは' _in_ reference[1] {
+		'\1\s[1000]\0\s[11]陽子ちゃん、\w8こんばんは！\e'
+	}
+}
+
+//別人格のコミュニケート記述の例（元の Another.TalkComm.テスト.しりとり）
+ReplyTo_テスト
+{
+	if 'しりとりしましょ？' _in_ reference[1] {
+		'\1\s[1000]\0\s[11]やだ。\1やだってお前…\e'
+	}
+}
+
+//しりとりの例：相手の言った言葉に続けて返事をします（元の辞書では、descript.txt を書き換えて2体立てたときの例）
+ReplyToOther
+{
+	if 'しりとりしましょ？' _in_ reference[1] {
+		res_reference0 = reference[0]
+		'\1\s[1000]\0\s[11]うん！\w8\w8じゃ、\w8最初は…\w8愛。\e'
+	}
+	elseif '愛。' _in_ reference[1] {
+		res_reference0 = reference[0]
+		'\1\s[1000]\0\s[0]意思。\e'
+	}
+	elseif '意思。' _in_ reference[1] {
+		res_reference0 = reference[0]
+		'\1\s[1000]\0\s[0]幸せ。\e'
+	}
+	elseif '幸せ。' _in_ reference[1] {
+		res_reference0 = reference[0]
+		'\1\s[1000]\0\s[0]世界。\e'
+	}
+	elseif '世界。' _in_ reference[1] {
+		res_reference0 = reference[0]
+		'\1\s[1000]\0\s[0]戒め。\e'
+	}
+	elseif '戒め。' _in_ reference[1] {
+		res_reference0 = reference[0]
+		'\1\s[1000]\0\s[0]迷宮。\e'
+	}
+	elseif '迷宮。' _in_ reference[1] {
+		res_reference0 = reference[0]
+		'\1\s[1000]\0\s[0]うわさ。\e'
+	}
+	elseif 'うわさ。' _in_ reference[1] {
+		res_reference0 = reference[0]
+		'\1\s[1000]\0\s[0]災害。\e'
+	}
+	elseif '災害。' _in_ reference[1] {
+		res_reference0 = reference[0]
+		'\1\s[1000]\0\s[0]怒り。\e'
+	}
+	elseif '怒り。' _in_ reference[1] {
+		res_reference0 = reference[0]
+		'\1\s[1000]\0\s[0]理想。\e'
+	}
+	elseif '理想。' _in_ reference[1] {
+		res_reference0 = reference[0]
+		'\1\s[1000]\0\s[0]運命。\e'
+	}
+	elseif '運命。' _in_ reference[1] {
+		res_reference0 = reference[0]
+		'\1\s[1000]\0\s[0]今。\e'
+	}
+	elseif '今。' _in_ reference[1] {
+		res_reference0 = reference[0]
+		'\1\s[1000]\0\s[0]魔法。\e'
+	}
+	elseif '魔法。' _in_ reference[1] {
+		res_reference0 = reference[0]
+		'\1\s[1000]\0\s[0]海。\e'
+	}
+	elseif '海。' _in_ reference[1] {
+		res_reference0 = reference[0]
+		'\1\s[1000]\0\s[0]未来。\e'
+	}
+	elseif '未来。' _in_ reference[1] {
+		res_reference0 = reference[0]
+		'\1\s[1000]\0\s[0]今…あ。\w8\w8\n負けた～。\w8\w8\e'
+	}
+	elseif '負けた～' _in_ reference[1] {
+		'\1\s[1000]\0\s[11]やった～！\e'
+	}
+}
+

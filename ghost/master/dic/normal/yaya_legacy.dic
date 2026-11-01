@@ -1,0 +1,331 @@
+//******************************************************************************
+// SHIORIES
+// 元の OpenKEEPS のイベント名のまま移した反応
+// 本体（SSP）が今は通知しないものも含む（Winamp、UD Sensor、アプリケーション通知、RSS、壁紙など）。
+// イベント名は元のとおり。通知してくるベースウェアや外部ソフトがあれば反応します。
+//******************************************************************************
+
+
+//******************************************************************************
+// 正規化（元の辞書の StringNormalize 相当）
+//******************************************************************************
+//英大文字を小文字にし、空白と記号を取り除く（アプリケーション名や曲名の照合に使う）
+NormalizeName
+{
+	RE_REPLACE(TOLOWER(_argv[0]),'[\s\-_.,:;!?\x22\x27()\[\]{}<>/\\|~`@#$%^&*+=　]','')
+}
+
+
+//******************************************************************************
+// アプリケーション通知（SHIORI/2.2 Notify 対応アプリ）
+//******************************************************************************
+OnApplicationBoot
+{
+	_name = SHIORI3FW.EscapeAllTags(reference[0])
+	if NormalizeName(reference[0]) == 'udsensor' {
+		'\0\s[11]「UDSensor」が起動しました。\n\n「UNITED DEVICES」の解析状況を報告します。\e'
+	}
+	else {
+		"\0\s[0]「%(_name)」が起動しました。\e"
+	}
+}
+
+OnApplicationClose
+{
+	_name = SHIORI3FW.EscapeAllTags(reference[0])
+	if NormalizeName(reference[0]) == 'udsensor' {
+		'\0\s[3]「UDSensor」が終了しました。\e'
+	}
+	else {
+		"\0\s[0]「%(_name)」が終了しました。\e"
+	}
+}
+
+OnApplicationExist
+{
+	_name = SHIORI3FW.EscapeAllTags(reference[0])
+	_info = SHIORI3FW.EscapeAllTags(reference[1])
+	"\0\s[0]「%(_name)」からの情報です。\n\n－－－－－－－－－－\n\n%(_info)\e"
+}
+
+//アプリケーションの版情報（トークはしない）
+OnApplicationVersion : void
+{
+	appli_name      = reference[0]
+	appli_maker     = reference[1]
+	appli_version   = reference[2]
+	appli_copyright = reference[3]
+	appli_url       = reference[4]
+	SHIORI3FW.RegisterTempVar('appli_name','appli_maker','appli_version','appli_copyright','appli_url')
+}
+
+OnApplicationOperationFinish
+{
+	_name = SHIORI3FW.EscapeAllTags(reference[0])
+	_op = SHIORI3FW.EscapeAllTags(reference[1])
+	_target = SHIORI3FW.EscapeAllTags(reference[2])
+	"\0\s[11]「%(_name)」の、%(_op)が%(_target)しました。\e"
+}
+
+//開いたファイルが画像（bmp / jpg / png / gif）かどうかで台詞を変える
+OnApplicationFileOpen
+{
+	_name = SHIORI3FW.EscapeAllTags(reference[0])
+	_file = RE_REPLACE(reference[1],'^.*[\\/]','')
+	_ext = TOLOWER(RE_REPLACE(_file,'^.*\.',''))
+	_file = SHIORI3FW.EscapeAllTags(_file)
+	if _ext _in_ 'bmp,jpg,png,gif' && STRLEN(_ext) > 0 {
+		"\0\s[0]画像ファイル「%(_file)」を「%(_name)」で開いていますね。\e"
+	}
+	else {
+		"\0\s[0]「%(_file)」を「%(_name)」で開いていますね。\e"
+	}
+}
+
+//ウェブサイトからの更新情報（reference[2] はカンマ区切りの本文）
+OnWebsiteUpdateNotify
+{
+	_name = SHIORI3FW.EscapeAllTags(reference[0])
+	_date = SHIORI3FW.EscapeAllTags(reference[1])
+	_news = REPLACE(SHIORI3FW.EscapeAllTags(reference[2]),',','\n')
+	"\0\s[0]「%(_name)」からの更新情報です。\n\n最終更新日：%(_date)\n－－－－－－－－－－\n%(_news)\e"
+}
+
+
+//******************************************************************************
+// UD Sensor
+//******************************************************************************
+//解析時間の書式：「N分（H時間M分）」（0の単位は出さない）
+UdsDetail
+{
+	_s = TOSTR(_argv[1]) + '分（'
+	if TOINT(_argv[2]) {
+		_s += TOSTR(TOINT(_argv[2])) + '時間'
+	}
+	if TOINT(_argv[3]) {
+		_s += TOSTR(TOINT(_argv[3])) + '分'
+	}
+	_s + '）'
+}
+
+//reference[0]…解析度(%) / [1][2]…1%の解析にかかった時間(時,分) / [3][4]…前回の通知からの経過(時,分)
+//[5][6]…タスク全体の経過(時,分) / [7]…書式化された文字列
+OnUdsUpdate
+{
+	_t1 = TOINT(reference[2]) + TOINT(reference[1]) * 60
+	_tp = TOINT(reference[4]) + TOINT(reference[3]) * 60
+	_tt = TOINT(reference[6]) + TOINT(reference[5]) * 60
+	'\t'
+	--
+	if TOINT(reference[0]) == 0 {
+		'\0\s[11]「UD Agent」が解析データを送ります。\1\s[1000]インターネットに接続して下さい。\0\n'
+	}
+	else {
+		"\0\s[11]「UD Agent」のデータが更新されました！\1\s[1000]Snoozeして終了するなら今がベスト。\0\n\n解析率：%(TOINT(reference[0]))％\n"
+	}
+	--
+	"\n１％の解析時間：%(UdsDetail(0,_t1,reference[1],reference[2]))"
+	--
+	"\n前回の通知から：%(UdsDetail(0,_tp,reference[3],reference[4]))"
+	--
+	"\nトータル時間　：%(UdsDetail(0,_tt,reference[5],reference[6]))"
+	--
+	if STRLEN(reference[7]) > 0 {
+		"\n----------\n%(SHIORI3FW.EscapeAllTags(reference[7]))"
+	}
+	--
+	'\e'
+}
+
+
+//******************************************************************************
+// 音楽プレイヤー（Winamp / iTunes など）
+//******************************************************************************
+//曲名と作曲者名をしゃべる。作曲者名は「artist - title」の形で届く
+OnMusicPlay
+{
+	_msg = RE_REPLACE(reference[0],'^\s+|\s+$','')
+	//---- プレイヤーのエラーメッセージ・状態表示なら何もしない
+	foreach ('buffer','icy 200 ok','connecting','error opening sound device') ; _skip {
+		if SUBSTR(TOLOWER(_msg),0,STRLEN(_skip)) == _skip {
+			return
+		}
+	}
+	_msg = SHIORI3FW.EscapeAllTags(_msg)
+	_artist = ''
+	_title = ''
+	if SUBSTR(_msg,0,2) == '- ' {
+		_title = SUBSTR(_msg,2,STRLEN(_msg))
+	}
+	elseif STRSTR(_msg,' - ',0) >= 0 {
+		_pos = STRSTR(_msg,' - ',0)
+		_artist = SUBSTR(_msg,0,_pos)
+		_title = SUBSTR(_msg,_pos + 3,STRLEN(_msg))
+	}
+	else {
+		_title = _msg
+	}
+	MusicTalk(_artist,_title)
+}
+
+//拡張版（iTunes など）。reference[0]…曲名 / [1]…作曲者名
+OnMusicPlayEx
+{
+	MusicTalk(SHIORI3FW.EscapeAllTags(reference[1]),SHIORI3FW.EscapeAllTags(reference[0]))
+}
+
+//元の TalkWinampplay.<作曲者>.<曲名> / .__other__.<曲名> / .<作曲者> / 汎用 の順に探すのと同じ
+MusicTalk
+{
+	_artist = _argv[0]
+	_title = _argv[1]
+	_na = NormalizeName(_artist)
+	_nt = NormalizeName(_title)
+	if _na == 'tsquare' && _nt == 'truth' {
+		'\0\s[11]T-SQUAREの「TRUTH」です。\w8\w8名曲です。\w8\w8\e'
+	}
+	elseif _nt == '風の辿り着く場所' {
+		'\0\s[11]「風の辿り着く場所」ですね。\w8\w8いい曲です。\w8\w8\e'
+	}
+	elseif _nt == 'みこみこナースop' {
+		'\1\s[1000]\0\s[11]\_sみこみこナ～ス！\_s\e'
+	}
+	elseif _na == 'casiopea' {
+		"\0\s[0]あら、\w8CASIOPEAの「%(_title)」ですね。\w8\w8\e"
+	}
+	elseif _na == 'ive' {
+		"\1\s[1000]\0\s[0]この「%(_title)」って曲、\w8I've作曲なんですねぇ。\w8\w8\1最近多いな。\w8\w8\nワイは好きやからエエが。\w8\w8\e"
+	}
+	elseif STRLEN(_na) == 0 {
+		"\0\s[0]今、流れているのは、\n\n「%(_title)」\n\nです。\e"
+	}
+	else {
+		"\0\s[0]今、流れているのは、\n\n%(_artist) の「%(_title)」\n\nです。\e"
+	}
+}
+
+
+//******************************************************************************
+// RSS
+//******************************************************************************
+OnRSSBegin
+{
+	rss_site = SHIORI3FW.EscapeAllTags(reference[0])
+	rss_url = reference[1]
+	SHIORI3FW.RegisterTempVar('rss_site','rss_url')
+	--
+	"\p[3]\s[-1]\p[2]\s[2000]\1\s[1000]\0\s[0]サイト「%(rss_site)」のRSSを取得します。\w8\e"
+}
+
+OnRSSComplete
+{
+	rss_site = SHIORI3FW.EscapeAllTags(reference[0])
+	rss_url = reference[1]
+	SHIORI3FW.RegisterTempVar('rss_site','rss_url')
+	//---- 記事の一覧（タイトルは長ければ切って「…」を付ける）
+	_items = ''
+	for _i = 2 ; _i < ARRAYSIZE(reference) ; _i++ {
+		_e = SPLIT(reference[_i],CHR(1))
+		_t = SHIORI3FW.EscapeAllTags(_e[0])
+		if STRLEN(_t) > 21 {
+			_t = SUBSTR(_t,0,21) + '…'
+		}
+		_t = REPLACE(_t,CHR(0x22),CHR(0x22)+CHR(0x22))
+		_items += '\q[■ "' + _t + '",' + _e[1] + ']\n'
+	}
+	'\t'
+	--
+	"\p[3]\s[-1]\p[2]\s[2000]\1\s[1000]\0\s[0]\b[2]サイト「%(rss_site)」の概要です。\w8\n\n"
+	--
+	_items
+	--
+	'\n'
+	--
+	AYATEMPLATE.MenuItem("サイトを開く","Menu_RSSJump",0)
+	--
+	AYATEMPLATE.MenuItem("読み込み終了","Menu_RSSCancel")
+}
+
+Menu_RSSJump
+{
+	"\![open,browser,%(rss_url)]\e"
+}
+
+Menu_RSSCancel
+{
+	'\p[3]\s[-1]\p[2]\s[2000]\1\s[1000]\0\s[0]RSS読み込みを終了します。\w8\e'
+}
+
+OnRSSFailure
+{
+	if reference[0] == "can't download" {
+		'\p[3]\s[-1]\p[2]\s[2000]\1\s[1000]\0\s[104]RSSが取得できませんでした。\w8\e'
+	}
+	elseif reference[0] == "can't analyze" {
+		'\p[3]\s[-1]\p[2]\s[2000]\1\s[1000]\0\s[152]RSSの解析に失敗しました。\w8\e'
+	}
+	else {
+		'\p[3]\s[-1]\p[2]\s[2000]\1\s[1000]\0\s[4]RSS取得失敗です…\w8…\w8。\w8\e'
+	}
+}
+
+
+//******************************************************************************
+// 壁紙の変更（MATERIA 490 で廃止されたイベント）
+//******************************************************************************
+OnWallpaperChange
+{
+	'\p[3]\s[-1]\p[2]\s[2000]\1\s[1000]\0\s[0]壁紙変更します。\w8\n\s[3]……変なのじゃないですよね？\w8\n\e'
+}
+
+
+//******************************************************************************
+// スケジュールの投稿（旧仕様。今の SSP では発生しない）
+//******************************************************************************
+OnSchedulepostBegin
+{
+	"\0\s[0]%(reference[0]) スケジュールへ投稿します。\e"
+}
+
+OnSchedulepostComplete
+{
+	"\0\s[11]%(reference[0]) スケジュールへの投稿処理が完了しました。\e"
+}
+
+//元の辞書のイベント名（MinutesではなくMinute）でも反応する
+OnSchedule5MinuteToGo
+{
+	OnSchedule5MinutesToGo
+}
+
+
+//******************************************************************************
+// バッテリー・システムリソース（「きのこ」互換イベント）
+//******************************************************************************
+//前回より減ったときだけ反応する
+OnBatteryLow
+{
+	if !ISVAR('kinoko_battery') {
+		kinoko_battery = 100
+	}
+	_p = TOINT(reference[0])
+	if _p < kinoko_battery {
+		"\0\s[3]バッテリー残量が%(_p)％に低下しています。\e"
+	}
+	kinoko_battery = _p
+	SHIORI3FW.RegisterTempVar('kinoko_battery')
+}
+
+OnBatteryCritical
+{
+	if !ISVAR('kinoko_battery') {
+		kinoko_battery = 100
+	}
+	_p = TOINT(reference[0])
+	if _p < kinoko_battery {
+		"\0\s[2]バッテリー残量が%(_p)％に低下しました。\e"
+	}
+	kinoko_battery = _p
+	SHIORI3FW.RegisterTempVar('kinoko_battery')
+}
+

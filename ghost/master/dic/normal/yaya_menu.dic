@@ -1,0 +1,267 @@
+//******************************************************************************
+// SHIORIES
+// メニュー
+// AYATEMPLATE.MenuItem の使い方
+//   1つめの文字列＝選択肢に表示する文字列 / 2つめ＝選んだときに実行される関数名
+//   3つめ＝改行する量（50%刻み。省略すると100%＝\n）
+//******************************************************************************
+
+
+//******************************************************************************
+// メインメニュー
+//******************************************************************************
+OpenMenu
+{
+	'\p[3]\s[-1]\p[2]\s[2000]\1\s[1000]\0\s[0]\b[1]\s[0]メニューです。\w8'
+	'\p[3]\s[-1]\p[2]\s[2000]\1\s[1000]\0\s[0]\b[1]\1\s[1005]メニューでーす♪\w8\0\s[8]…\w8…\w8'
+	'\p[3]\s[-1]\p[2]\s[2000]\1\s[1000]\0\s[0]\b[1]\p[2]\s[2001]メニュー…\w8…\w8\w8\0\s[6]……'
+	--
+	AYATEMPLATE.MenuItem("偽ＡＩトーク","Menu_Manzai",200)
+	--
+	AYATEMPLATE.MenuItem("COMMUNICATEボックス","Menu_Talk")
+	--
+	AYATEMPLATE.MenuItem("お喋り頻度","Menu_Timing")
+	--
+	AYATEMPLATE.MenuItem("オプション設定","Menu_Option")
+	--
+	AYATEMPLATE.MenuItem("閉じる","Menu_Cancel",200)
+}
+
+OnChoiceTimeout
+{
+	'\p[3]\s[-1]\p[2]\s[2000]\1\s[1000]\0\s[111]\b[0]ちゃんと見て欲しいなあ…\w8\e'
+}
+
+
+//******************************************************************************
+// 各項目の処理内容
+//******************************************************************************
+//---- 偽ＡＩトーク（ランダムトークを明示的に開始）
+Menu_Manzai
+{
+	OnAiTalk
+}
+
+Menu_Talk
+{
+	'\p[3]\s[-1]\p[2]\s[2000]\1\s[1000]\0\s[0]はい、\w4あなたとお話ですね。\w8\![open,communicatebox]\e'
+}
+
+Menu_Cancel
+{
+	'\p[3]\s[-1]\p[2]\s[2000]\1\s[1000]\0\s[4]\b[0]はいはい、\w4お呼びでないと…\w8…\w8。\w8\n\e'
+}
+
+//------------------------------------------------------------------------------
+// お喋り頻度
+//------------------------------------------------------------------------------
+Menu_Timing
+{
+	"\p[3]\s[-1]\p[2]\s[2000]\1\s[1000]\0\s[0]お喋り頻度を設定します。\n今の設定は「%(intervalkeyword)」です。"
+	--
+	AYATEMPLATE.MenuItem("頻繁に","Menu_Timing3",200)
+	--
+	AYATEMPLATE.MenuItem("普通に","Menu_Timing5")
+	--
+	AYATEMPLATE.MenuItem("控えめ","Menu_Timing7")
+	--
+	AYATEMPLATE.MenuItem("好きなように","Menu_TimingRand")
+	--
+	AYATEMPLATE.MenuItem("喋らない","Menu_Timing9")
+	--
+	AYATEMPLATE.MenuItem("戻る","OpenMenu",200)
+	--
+	AYATEMPLATE.MenuItem("閉じる","Menu_Cancel")
+}
+
+Menu_Timing3_Set : void
+{
+	aitalkinterval = 28
+	intervalkeyword = '頻繁に'
+}
+
+Menu_Timing3
+{
+	Menu_Timing3_Set
+	--
+	'\p[3]\s[-1]\p[2]\s[2000]\1\s[1000]\0\s[11]頻繁に喋ります。\w8\n\1\s[1155]喋るぞ～\w8いっぱい喋るぞ～\w8\n\0\s[8]…\w8…\w8。\w8\e'
+}
+
+Menu_Timing5_Set : void
+{
+	aitalkinterval = 56
+	intervalkeyword = '普通に'
+}
+
+Menu_Timing5
+{
+	Menu_Timing5_Set
+	--
+	'\p[3]\s[-1]\p[2]\s[2000]\1\s[1000]\0\s[0]普通に喋ります。\w8\e'
+}
+
+Menu_Timing7_Set : void
+{
+	aitalkinterval = 84
+	intervalkeyword = '控えめ'
+}
+
+Menu_Timing7
+{
+	Menu_Timing7_Set
+	--
+	'\p[3]\s[-1]\p[2]\s[2000]\1\s[1000]\0\s[0]喋りを控えます。\w8\e'
+}
+
+Menu_TimingRand_Set : void
+{
+	aitalkinterval = RAND(90) + 31
+	intervalkeyword = '好きなように'
+}
+
+Menu_TimingRand
+{
+	Menu_TimingRand_Set
+	--
+	'\p[3]\s[-1]\p[2]\s[2000]\1\s[1000]\0\s[5]好きなように喋ります。\w8\nありがとう。\w8\e'
+}
+
+Menu_Timing9_Set : void
+{
+	aitalkinterval = 0
+	intervalkeyword = '喋らない'
+}
+
+Menu_Timing9
+{
+	Menu_Timing9_Set
+	--
+	'\p[3]\s[-1]\p[2]\s[2000]\1\s[1000]\0\s[4]喋りません。\w8\n\p[2]\s[2050]この方が好き…\w8…\w8\n\0\s[14]…\w8…\w8。\w8\e'
+}
+
+//------------------------------------------------------------------------------
+// オプション設定
+//------------------------------------------------------------------------------
+Menu_Option
+{
+	_m = 'ＯＮ'
+	if option_mikire {
+		_m = 'ＯＦＦ'
+	}
+	_k = 'ＯＮ'
+	if option_kasanari {
+		_k = 'ＯＦＦ'
+	}
+	_s = 'ＯＮ'
+	if option_shake {
+		_s = 'ＯＦＦ'
+	}
+	'\p[3]\s[-1]\p[2]\s[2000]\1\s[1000]\0\s[0]オプション設定です。\n'
+	--
+	AYATEMPLATE.MenuItem("見切れ反応を" + _m + "に","Menu_Mikire",100)
+	--
+	AYATEMPLATE.MenuItem("重なり反応を" + _k + "に","Menu_Kasanari")
+	--
+	AYATEMPLATE.MenuItem("振動機能を" + _s + "に","Menu_Shake")
+	--
+	AYATEMPLATE.MenuItem("ユーザー名変更","Menu_TeachName")
+	--
+	AYATEMPLATE.MenuItem("戻る","OpenMenu",200)
+	--
+	AYATEMPLATE.MenuItem("閉じる","Menu_Cancel")
+}
+
+Menu_Mikire
+{
+	_msg = ''
+	if option_mikire {
+		option_mikire = 0
+		_msg = '見切れ反応が無効になりました。'
+	}
+	else {
+		option_mikire = 1
+		_msg = '見切れ反応を有効にします。'
+	}
+	'\p[3]\s[-1]\p[2]\s[2000]\1\s[1000]\0\s[0]'
+	--
+	_msg
+	--
+	'\e'
+}
+
+Menu_Kasanari
+{
+	_msg = ''
+	if option_kasanari {
+		option_kasanari = 0
+		_msg = '重なり反応が無効になりました。'
+	}
+	else {
+		option_kasanari = 1
+		_msg = '重なり反応を有効にします。'
+	}
+	'\p[3]\s[-1]\p[2]\s[2000]\1\s[1000]\0\s[0]'
+	--
+	_msg
+	--
+	'\e'
+}
+
+Menu_Shake
+{
+	_msg = ''
+	if option_shake {
+		option_shake = 0
+		_msg = '振動機能が無効になりました。'
+	}
+	else {
+		option_shake = 1
+		_msg = '振動機能が有効になりました。'
+	}
+	'\p[3]\s[-1]\p[2]\s[2000]\1\s[1000]\0\s[0]'
+	--
+	_msg
+	--
+	'\e'
+}
+
+//------------------------------------------------------------------------------
+// ユーザー名の変更
+//------------------------------------------------------------------------------
+Menu_TeachName
+{
+	'\p[3]\s[-1]\p[2]\s[2000]\1\s[1000]\0\s[150]それじゃ、\w4何とお呼びしますか？\w8\![open,inputbox,TeachName,-1]\e'
+}
+
+//入力ボックスに入力された
+OnUserInput
+{
+	if reference[0] == 'TeachName' {
+		entername = SHIORI3FW.EscapeAllTags(reference[1])
+		if STRLEN(entername) == 0 {
+			entername = username
+		}
+		SHIORI3FW.RegisterTempVar('entername')
+		--
+		TeachNameConfirm
+	}
+}
+
+TeachNameConfirm
+{
+	"\p[3]\s[-1]\p[2]\s[2000]\1\s[1000]\0\s[105]お名前は「%(entername)」でいいですね？"
+	--
+	AYATEMPLATE.MenuItem("これでいい","Menu_MemoryName",200)
+	--
+	AYATEMPLATE.MenuItem("やり直す","Menu_TeachName")
+	--
+	AYATEMPLATE.MenuItem("やっぱりいいや","Menu_Cancel",200)
+}
+
+Menu_MemoryName
+{
+	username = entername
+	--
+	"\p[3]\s[-1]\p[2]\s[2000]\1\s[1000]\0\s[155]はい、\w4%(username)さんね。\w8覚えました。\w8\e"
+}
+

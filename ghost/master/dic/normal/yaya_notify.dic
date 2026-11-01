@@ -1,0 +1,256 @@
+//******************************************************************************
+// SHIORIES
+// 「きのこ」「猫どりふ」「カレンダー」「MATERIA」などからの通知への反応
+// 元の OpenKEEPS 付属辞書にあったサンプルの反応を、SHIORI/3.0 のイベントに移したものです。
+//******************************************************************************
+
+
+//******************************************************************************
+// カレンダー（スケジュール）
+//******************************************************************************
+//reference[0]…種別 / [1]…内容 / [2]…追加データ / [3]…スクリプト
+Schedule_Detail
+{
+	if STRLEN(_argv[2]) > 0 || STRLEN(_argv[3]) > 0 {
+		"\n－－－－－－－－－－\n%(_argv[2])\n%(_argv[3])"
+	}
+}
+
+OnSchedule5MinutesToGo
+{
+	"\0\s[0]（%(reference[0])）\n%(reference[1])\n\n予定時刻、５分前です。%(Schedule_Detail(reference[0],reference[1],reference[2],reference[3]))\e"
+}
+
+OnScheduleRead
+{
+	"\0\s[0]（%(reference[0])）\n%(reference[1])%(Schedule_Detail(reference[0],reference[1],reference[2],reference[3]))\e"
+}
+
+OnSchedulesenseBegin
+{
+	"\0\s[0]%(reference[0]) スケジュールを取得します。\e"
+}
+
+OnSchedulesenseComplete
+{
+	"\0\s[0]%(reference[0]) スケジュールを取得しました。\n\nスケジュールデータは、%(reference[1])ありました。\e"
+}
+
+OnSchedulesenseFailure
+{
+	if reference[0] == "can't download" {
+		'\0\s[4]スケジュール情報が取得できませんでした。\e'
+	}
+	elseif reference[0] == "can't analyze" {
+		'\0\s[4]スケジュール情報の解析に失敗しました。\e'
+	}
+	elseif reference[0] == 'noupdate' {
+		'\0\s[4]スケジュールは更新されていませんでした。\e'
+	}
+	else {
+		"\0\s[2]「%(reference[1])」エラーが発生しました。\e"
+	}
+}
+
+
+//******************************************************************************
+// MATERIA / 猫どりふ
+//******************************************************************************
+OnEmbryoExist
+{
+	'\1\s[1000]\0\s[0]あ、\w8MATERIAも起動してますね。\w8\w8\e'
+}
+
+OnNekodorifExist
+{
+	"\1\s[1000]\0\s[0]%(username)、\w8\s[2]\nね、\w8猫どりふ！？\e"
+}
+
+
+//******************************************************************************
+// システムリソース
+//******************************************************************************
+//前回より減ったときだけ反応する
+OnSysResourceLow
+{
+	if !ISVAR('kinoko_resource') {
+		kinoko_resource = 100
+	}
+	_p = TOINT(reference[0])
+	if _p < kinoko_resource {
+		"\0\s[3]システムリソースの残りが%(_p)％しかありません。\e"
+	}
+	kinoko_resource = _p
+	SHIORI3FW.RegisterTempVar('kinoko_resource')
+}
+
+OnSysResourceCritical
+{
+	if !ISVAR('kinoko_resource') {
+		kinoko_resource = 100
+	}
+	_p = TOINT(reference[0])
+	if _p < kinoko_resource {
+		"\0\s[4]システムリソースが%(_p)％しか残っていません。\e"
+	}
+	kinoko_resource = _p
+	SHIORI3FW.RegisterTempVar('kinoko_resource')
+}
+
+
+//******************************************************************************
+// 「きのこ」
+//******************************************************************************
+//きのこの名前（reference[0]）→ カテゴリ（reference[2]。複数あるときはカンマ区切りの最初）の順に調べる
+KinokoCategory
+{
+	SPLIT(reference[2],',')[0]
+}
+
+OnKinokoObjectCreate
+{
+	_name = SHIORI3FW.EscapeAllTags(reference[0])
+	_type = SHIORI3FW.EscapeAllTags(KinokoCategory)
+	if reference[0] == '1UPきのこ60' {
+		'\0\s[4]小さい１ＵＰきのこが生えました。\e'
+	}
+	elseif reference[0] == 'クスミタケ' {
+		'\0\s[4]クスミタケが生えました。\e'
+	}
+	elseif _type == 'きのこ' {
+		"\0\s[4]「%(_name)」というきのこが生えました。\e"
+	}
+	elseif _type == 'アンテナ' {
+		"\0\s[4]「%(_name)」というアンテナが生えました。\e"
+	}
+	elseif _type == '植物' {
+		"\0\s[4]「%(_name)」という植物が生えました。\e"
+	}
+	elseif _type == '建造物' {
+		"\0\s[4]「%(_name)」という建造物が建ちました。\e"
+	}
+	elseif _type == 'ヘッドマーク' {
+		"\0\s[4]「%(_name)」というヘッドマークがつきました。\e"
+	}
+	else {
+		"\0\s[4]「%(_name)」という「%(_type)」が生えました。\e"
+	}
+}
+
+OnKinokoObjectDestroy
+{
+	_name = SHIORI3FW.EscapeAllTags(reference[0])
+	_type = SHIORI3FW.EscapeAllTags(KinokoCategory)
+	if reference[0] == 'どりふで潰れるきのこ' {
+		'\0\s[11]つぶれるきのこが狩られました。\e'
+	}
+	elseif _type == 'きのこ' {
+		"\0\s[11]「%(_name)」というきのこが狩られました。\e"
+	}
+	else {
+		"\0\s[11]「%(_name)」という「%(_type)」が狩られました。\e"
+	}
+}
+
+OnKinokoObjectInstalled
+{
+	"\0\s[0]「%(SHIORI3FW.EscapeAllTags(reference[0]))」という「%(SHIORI3FW.EscapeAllTags(KinokoCategory))」がインストールされました。\e"
+}
+
+
+//******************************************************************************
+// 「猫どりふ」
+//******************************************************************************
+//落下物の対象（reference[4]）が、本体側（華和梨）か相方側（里々）かを調べる
+NekodorifTarget
+{
+	if reference[4] == '里々' {
+		1
+	}
+	else {
+		0
+	}
+}
+
+//落下物のカテゴリ（reference[2]。複数あるときはカンマ区切りの最初）
+NekodorifType
+{
+	SPLIT(reference[2],',')[0]
+}
+
+OnNekodorifObjectEmerge
+{
+	if NekodorifTarget {
+		'\_q\1\s[1000]私が狙われています。\e'
+	}
+	else {
+		'\_q\0\s[2]私が狙われています。\e'
+	}
+}
+
+OnNekodorifObjectHit
+{
+	if reference[3] == 1 {
+		//---- きのこに当たった
+		if !NekodorifTarget {
+			'\0\s[11]きのこに当たりました。\e'
+		}
+	}
+	elseif NekodorifTarget {
+		if NekodorifType == 'stub' {
+			'\1\s[1000]\_qびっ！\_q\e'
+		}
+		else {
+			'\1\s[1000]\_qぴっ！\_q\e'
+		}
+	}
+	elseif reference[0] == 'かえる' {
+		'\0\s[0]‥‥\s[2]きぃやぁあぁぁああぁぁぁっ！\e'
+	}
+	elseif reference[0] == 'loveletter' {
+		'\0\s[2]‥\w4‥\w4手紙？\e'
+	}
+	else {
+		case NekodorifType {
+			when 'surprise', 'hate' {
+				'\0\s[0]‥‥\s[2]きぃやぁあぁぁああぁぁぁっ！\e'
+			}
+			when 'pretty', 'love', 'elegant' {
+				'\0\s[1]あ‥\w4‥\w4‥。\e'
+			}
+			others {
+				'\0\s[4]\_qいたっ！\_q\e'
+			}
+		}
+	}
+}
+
+OnNekodorifObjectDodge
+{
+	_name = SHIORI3FW.EscapeAllTags(reference[0])
+	if NekodorifTarget {
+		"\1\s[1000]%(_name)を避けました。\e"
+	}
+	else {
+		"\0\s[11]%(_name)を避けました。\e"
+	}
+}
+
+OnNekodorifObjectVanish
+{
+	_name = SHIORI3FW.EscapeAllTags(reference[0])
+	_type = SHIORI3FW.EscapeAllTags(NekodorifType)
+	if !NekodorifTarget && reference[0] == 'かえる' {
+		'\0\s[4]かえるぴょこぴょこみぴょこぴょこ。\e'
+	}
+	elseif !NekodorifTarget && reference[0] == 'loveletter' {
+		'\0\s[11]手紙を受け取りました。\e'
+	}
+	elseif NekodorifTarget {
+		"\1「%(_name)」という「%(_type)」でした。\e"
+	}
+	else {
+		"\0「%(_name)」という「%(_type)」でした。\e"
+	}
+}
+

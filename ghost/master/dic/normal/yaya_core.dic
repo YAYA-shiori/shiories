@@ -1,0 +1,139 @@
+//******************************************************************************
+// SHIORIES
+// 共通処理（変数の初期化、起動・終了の記録）
+//******************************************************************************
+
+//------------------------------------------------------------------------------
+// 変数の初期化
+//------------------------------------------------------------------------------
+OnSystemLoad.SHIORIES
+{
+	//---- オプション（1 = 有効）
+	if !ISVAR('option_mikire') {
+		option_mikire = 1
+	}
+	if !ISVAR('option_kasanari') {
+		option_kasanari = 1
+	}
+	if !ISVAR('option_shake') {
+		option_shake = 1
+	}
+
+	//---- ユーザー名（旧版から引き継いだ場合は OnFirstBoot が来ないので、ここで既定値を入れる）
+	if !ISVAR('username') {
+		username = 'ユーザーさん'
+	}
+
+	//---- お喋り頻度（元の既定値は57秒。表示名とあわせて初回だけ決める）
+	if !ISVAR('intervalkeyword') {
+		intervalkeyword = '普通に'
+		aitalkinterval = 57
+	}
+
+	//---- 起動・終了の記録
+	if !ISVAR('boot_mutex') {
+		boot_mutex = 0
+	}
+	if !ISVAR('last_close_sec') {
+		last_close_sec = 0
+	}
+	if !ISVAR('ghost_boot_sec') {
+		ghost_boot_sec = GETSECCOUNT
+	}
+	if !ISVAR('worktime') {
+		worktime = 0
+	}
+	if !ISVAR('minimize_sec') {
+		minimize_sec = 0
+	}
+
+	//---- 前回のアンロードが正常だったか（異常終了＝OnSystemUnloadが呼ばれなかった、の判定に使う）
+	//     ロードのたびに0にして保存し、OnSystemUnloadで1に戻す。SSPが落ちるとアンロードされず、0のまま残る
+	if !ISVAR('unload_clean') {
+		unload_clean = 1
+	}
+	prev_unload_clean = unload_clean
+	unload_clean = 0
+	SAVEVAR
+
+	//---- ロードのたびに初期化する変数（保存しない）
+	boot_seen = 0
+	boot_crashed = 0
+	boot_away_min = -1
+	stroke_zone = ''
+	stroke_count = 0
+	stroke_phase = 0
+	stroke_limits = IARRAY
+	SHIORI3FW.RegisterTempVar('boot_seen','boot_crashed','boot_away_min','prev_unload_clean','stroke_zone','stroke_count','stroke_phase','stroke_limits')
+}
+
+OnSystemUnload.SHIORIES
+{
+	unload_clean = 1
+}
+
+//------------------------------------------------------------------------------
+// 起動の記録（OnBoot / OnGhostChanged / OnGhostCalled / OnFirstBoot の共通処理）
+//------------------------------------------------------------------------------
+//前回の終了時にMarkClosedが呼ばれず（boot_mutexが1のまま）、しかもアンロードもされていなければ、
+//異常終了（クラッシュ）とみなす。ゴーストのリロードでは、アンロードされるので誤検知しない
+//同じ起動の中で複数のイベントから呼ばれても、最初の1回だけ処理する
+BootStart : void
+{
+	if boot_seen {
+		return
+	}
+	boot_seen = 1
+
+	boot_crashed = (boot_mutex == 1 && prev_unload_clean == 0)
+	boot_away_min = -1
+	if last_close_sec > 0 {
+		boot_away_min = (GETSECCOUNT - last_close_sec) / 60
+	}
+
+	boot_mutex = 1
+	ghost_boot_sec = GETSECCOUNT
+	worktime = 0
+	SAVEVAR
+}
+
+//終了・切り替えの記録
+MarkClosed : void
+{
+	boot_mutex = 0
+	last_close_sec = GETSECCOUNT
+	SAVEVAR
+}
+
+//このゴーストが起動してからの時間（分）
+GhostUpMinutes
+{
+	(GETSECCOUNT - ghost_boot_sec) / 60
+}
+
+//時間帯（5時、7時、11時、15時、18時、23時で区切る）
+GetTimeZone
+{
+	if hour < 5 {
+		'Midnight'
+	}
+	elseif hour < 7 {
+		'EarlyMorning'
+	}
+	elseif hour < 11 {
+		'Morning'
+	}
+	elseif hour < 15 {
+		'Day'
+	}
+	elseif hour < 18 {
+		'Evening'
+	}
+	elseif hour < 23 {
+		'Night'
+	}
+	else {
+		'Midnight'
+	}
+}
+

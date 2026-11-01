@@ -1,0 +1,357 @@
+//******************************************************************************
+// SHIORIES
+// 種々のイベント
+// トークを個別に書いていないイベントは、元の OpenKEEPS の汎用イベントトーク（TalkGeneral 系）と同じ
+// 「○○です／開始です／完了です／失敗です」と話します。
+//******************************************************************************
+
+
+//******************************************************************************
+// 汎用イベントトーク
+//******************************************************************************
+OnShellChanging
+{
+	_ref0 = SHIORI3FW.EscapeAllTags(reference[0])
+	"\p[3]\s[-1]\p[2]\s[2000]\1\s[1000]\0\s[0]シェルを「%(_ref0)」に切り替え開始です。\w8\e"
+}
+
+OnShellChanged
+{
+	_ref0 = SHIORI3FW.EscapeAllTags(reference[0])
+	"\p[3]\s[-1]\p[2]\s[2000]\1\s[1000]\0\s[5]シェルを「%(_ref0)」に切り替え完了です。\w8\e"
+}
+
+OnBalloonChange
+{
+	_ref0 = SHIORI3FW.EscapeAllTags(reference[0])
+	"\p[3]\s[-1]\p[2]\s[2000]\1\s[1000]\0\s[0]バルーンを「%(_ref0)」に切り替えです。\w8\e"
+}
+
+OnSSTPBreak
+{
+	'\p[3]\s[-1]\p[2]\s[2000]\1\s[1000]\0\s[0]SSTPの受信中断です。\w8\e'
+}
+
+OnInstallBegin
+{
+	'\p[3]\s[-1]\p[2]\s[2000]\1\s[1000]\0\s[0]インストール開始です。\w8\e'
+}
+
+OnInstallComplete
+{
+	_ref1 = SHIORI3FW.EscapeAllTags(reference[1])
+	"\p[3]\s[-1]\p[2]\s[2000]\1\s[1000]\0\s[5]「%(_ref1)」のインストール完了です。\w8\e"
+}
+
+OnInstallFailure
+{
+	'\p[3]\s[-1]\p[2]\s[2000]\1\s[1000]\0\s[4]インストール失敗です…\w8…\w8。\w8\e'
+}
+
+OnInstallRefuse
+{
+	'\p[3]\s[-1]\p[2]\s[2000]\1\s[1000]\0\s[0]インストールです。\w8\e'
+}
+
+OnUpdatedataCreating
+{
+	'\p[3]\s[-1]\p[2]\s[2000]\1\s[1000]\0\s[0]ネットワーク更新用データ作成開始です。\w8\e'
+}
+
+OnUpdatedataCreated
+{
+	'\p[3]\s[-1]\p[2]\s[2000]\1\s[1000]\0\s[5]ネットワーク更新用データ作成完了です。\w8\e'
+}
+
+OnNarCreating
+{
+	'\p[3]\s[-1]\p[2]\s[2000]\1\s[1000]\0\s[0]Narアーカイブ作成開始です。\w8\e'
+}
+
+OnNarCreated
+{
+	'\p[3]\s[-1]\p[2]\s[2000]\1\s[1000]\0\s[5]Narアーカイブ作成完了です。\w8\e'
+}
+
+OnBIFFBegin
+{
+	_ref2 = SHIORI3FW.EscapeAllTags(reference[2])
+	"\p[3]\s[-1]\p[2]\s[2000]\1\s[1000]\0\s[0]メールサーバ「%(_ref2)」のメールチェック開始です。\w8\e"
+}
+
+OnBIFFFailure
+{
+	'\p[3]\s[-1]\p[2]\s[2000]\1\s[1000]\0\s[4]メールチェック失敗です…\w8…\w8。\w8\e'
+}
+
+OnURLDropping
+{
+	'\p[3]\s[-1]\p[2]\s[2000]\1\s[1000]\0\s[0]ダウンロード開始です。\w8\e'
+}
+
+OnURLDropFailure
+{
+	'\p[3]\s[-1]\p[2]\s[2000]\1\s[1000]\0\s[4]ダウンロード失敗です…\w8…\w8。\w8\e'
+}
+
+OnSSTPBlacklisting
+{
+	'\p[3]\s[-1]\p[2]\s[2000]\1\s[1000]\0\s[0]ブラックリスト追加です。\w8\e'
+}
+
+OnUpdateBegin
+{
+	'\p[3]\s[-1]\p[2]\s[2000]\1\s[1000]\0\s[0]ネットワーク更新開始です。\w8\e'
+}
+
+OnUpdateReady
+{
+	'\p[3]\s[-1]\p[2]\s[2000]\1\s[1000]\0\s[0]ネットワーク更新準備完了です。\w8\e'
+}
+
+OnUpdate.OnDownloadBegin
+{
+	'\p[3]\s[-1]\p[2]\s[2000]\1\s[1000]\0\s[0]ネットワーク更新ファイルのダウンロード開始です。\w8\e'
+}
+
+OnUpdate.OnMD5CompareBegin
+{
+	'\p[3]\s[-1]\p[2]\s[2000]\1\s[1000]\0\s[0]MD5比較開始です。\w8\e'
+}
+
+OnUpdate.OnMD5CompareComplete
+{
+	'\p[3]\s[-1]\p[2]\s[2000]\1\s[1000]\0\s[5]MD5比較完了です。\w8\e'
+}
+
+OnUpdate.OnMD5CompareFailure
+{
+	'\p[3]\s[-1]\p[2]\s[2000]\1\s[1000]\0\s[4]MD5比較失敗です…\w8…\w8。\w8\e'
+}
+
+OnUpdateFailure
+{
+	'\p[3]\s[-1]\p[2]\s[2000]\1\s[1000]\0\s[4]ネットワーク更新失敗です…\w8…\w8。\w8\e'
+}
+
+General_OnGhostCalling
+{
+	_ref0 = SHIORI3FW.EscapeAllTags(reference[0])
+	"\p[3]\s[-1]\p[2]\s[2000]\1\s[1000]\0\s[0]%(_ref0)の呼び出し開始です。\w8\e"
+}
+
+General_OnGhostCallComplete
+{
+	_ref0 = SHIORI3FW.EscapeAllTags(reference[0])
+	"\p[3]\s[-1]\p[2]\s[2000]\1\s[1000]\0\s[5]%(_ref0)の呼び出し完了です。\w8\e"
+}
+
+General_OnOtherGhostBooted
+{
+	_ref0 = SHIORI3FW.EscapeAllTags(reference[0])
+	"\p[3]\s[-1]\p[2]\s[2000]\1\s[1000]\0\s[0]%(_ref0)の起動です。\w8\e"
+}
+
+General_OnOtherGhostClosed
+{
+	_ref0 = SHIORI3FW.EscapeAllTags(reference[0])
+	"\p[3]\s[-1]\p[2]\s[2000]\1\s[1000]\0\s[0]%(_ref0)の終了です。\w8\e"
+}
+
+OnBIFFComplete
+{
+	if TOINT(reference[0]) == 0 {
+		'\p[3]\s[-1]\p[2]\s[2000]\1\s[1000]\0\s[5]新着なしでメールチェック完了です。\w8\e'
+	}
+	else {
+		"\p[3]\s[-1]\p[2]\s[2000]\1\s[1000]\0\s[5]新着%(TOINT(reference[0]))通でメールチェック完了です。\w8\e"
+	}
+}
+
+OnUpdateComplete
+{
+	if reference[0] != 'none' {
+		MarkClosed
+	}
+	--
+	'\p[3]\s[-1]\p[2]\s[2000]\1\s[1000]\0\s[5]ネットワーク更新完了です。\w8\e'
+}
+
+
+//******************************************************************************
+// 最小化から復帰（元の TalkRestore）
+//******************************************************************************
+//最小化された時刻を覚えておき、復帰したときに経過時間で振り分ける
+//  5分未満＝Veryshort / 60分以上＝Long / それ以外＝通常
+OnWindowStateMinimize
+{
+	minimize_sec = GETSECCOUNT
+}
+
+OnWindowStateRestore
+{
+	_min = 0
+	if minimize_sec > 0 {
+		_min = (GETSECCOUNT - minimize_sec) / 60
+	}
+	minimize_sec = 0
+	if _min < 5 {
+		Restore_Veryshort
+	}
+	elseif _min >= 60 {
+		Restore_Long
+	}
+	else {
+		Restore_Normal
+	}
+}
+
+Restore_Normal
+{
+	'\p[3]\s[-1]\p[2]\s[2000]\0\s[0]\1\s[1151]うーん、\w4狭い～\w8。\n華和梨姉、\w4太ったんじゃない？\w8\n\n[half]\0\s[7]太ってない！\w8太ってないから！\w8\n\e'
+}
+
+Restore_Veryshort
+{
+	'\p[3]\s[-1]\p[2]\s[2000]\0\s[0]\1\s[1000]…\w8…\w8\s[1003]あれ？\w8\e'
+}
+
+Restore_Long
+{
+	'\p[3]\s[-1]\p[2]\s[2000]\1\s[1000]\0\s[111]\1\s[1151]\p[2]\s[2101]\_s…\w8…\w8\_s\s[2004]\1\s[1004]\0\s[4]\_s[0,1,2]狭かった～\w8。\w8\n\_s\s[4]一応、\w4私たちも感覚あるんだけどなぁ。\w8\n\n[half]\1\s[1007]ひどいよ、\w4狭いし、\w4お姉ちゃん達はボクを触ってくるし\p[2]\s[2007]\0\s[7]\_s[0,2]触ってない！\w8ちゃんと！\w8\_s\e'
+}
+
+
+//******************************************************************************
+// 消滅指示
+//******************************************************************************
+OnVanishSelecting
+{
+	'\p[3]\s[-1]\p[2]\s[2000]\1\s[1000]\0\s[0]\p[2]\s[2003]\1\s[1003]\0\s[3]\_s[0,1,2]…\w8…\w8\_s\e'
+}
+
+OnVanishSelected
+{
+	MarkClosed
+	--
+	'\p[3]\s[-1]\p[2]\s[2000]\1\s[1000]\0\s[0]\p[2]\s[2002]\1\s[1002]\0\s[2]\_s[0,1,2]！！\_s\e'
+}
+
+OnVanishCancel
+{
+	'\p[3]\s[-1]\p[2]\s[2000]\1\s[1000]\0\s[0]\p[2]\s[2004]\1\s[1004]\0\s[4]\_s[0,1,2]…\w8…\w8\n\n[half]\_s\p[2]\s[2007]\1\s[1007]\0\s[7]\_s[0,1,2]！！！\w8\n\_s\e'
+}
+
+OnVanishButtonHold
+{
+	'\p[3]\s[-1]\p[2]\s[2000]\1\s[1000]\0\s[0]\p[2]\s[2006]\1\s[1008]\0\s[8]\_s[0,1,2]…\w8…\w8遊び？\w8\_s\e'
+}
+
+
+//******************************************************************************
+// ネットワークが重い
+//******************************************************************************
+OnNetworkHeavy
+{
+	'\p[3]\s[-1]\p[2]\s[2000]\0\s[0]\1\s[1004]回線重い～\w8。\w8\n華和梨姉、\w4ダイエットしないとダメだよ～\w8。\w8\n\n[half]\0\s[7]それとこれとは無関係だ無関係！！\w8\n\n[half]\p[2]\s[2050]…\w8…\w8\e'
+}
+
+
+//******************************************************************************
+// 時計合わせ
+//******************************************************************************
+OnSNTPBegin
+{
+	"\0\s[0]ＳＮＴＰサーバ\n\n%(SHIORI3FW.EscapeAllTags(reference[0]))\n\nへのリクエストを開始します。\e"
+}
+
+//2008/03/25 19:15:05 のような形に整える
+SNTPCompare_StrForm
+{
+	_txt = SPLIT(_argv[0],',')
+	STRFORM('$04d/$02d/$02d $02d:$02d:$02d',TOINT(_txt[0]),TOINT(_txt[1]),TOINT(_txt[2]),TOINT(_txt[3]),TOINT(_txt[4]),TOINT(_txt[5]))
+}
+
+OnSNTPCompare
+{
+	"\_q\0\s[0]ＳＮＴＰ：%(SNTPCompare_StrForm(reference[1]))\nローカル：%(SNTPCompare_StrForm(reference[2]))\_q\n\n"
+	--
+	if TOINT(reference[3]) == 0 {
+		'\0\s[0]まだズレてないみたいです。\e'
+	}
+	else {
+		//\6は補正実行タグ。消しちゃだめ
+		"\0\s[0]%(TOINT(reference[3]))秒ズレてるので修正します\6。\e"
+	}
+}
+
+OnSNTPFailure
+{
+	'\0\s[4]ＳＮＴＰサーバへの接続に失敗しました。\e'
+}
+
+
+//******************************************************************************
+// ヘッドラインセンス
+//******************************************************************************
+OnHeadlinesenseBegin
+{
+	_name = SHIORI3FW.EscapeAllTags(reference[0])
+	"%(HeadlineFace)%(_name) ヘッドラインを取得します。\w8\e"
+}
+
+HeadlineFace
+{
+	'\p[3]\s[-1]\p[2]\s[2000]\1\s[1000]\0\s[0]'
+}
+
+//読み上げ。reference[2] … First / Next / Last / First and Last
+OnHeadlinesense.OnFind
+{
+	_name = SHIORI3FW.EscapeAllTags(reference[0])
+	if reference[2] == "First" || reference[2] == "First and Last" {
+		"\0\b[2]\s[0]%(_name) ヘッドラインです。"
+	}
+	else {
+		"\0\b[2]\s[0]%(_name) ヘッドラインの続きです。"
+	}
+	--
+	"\n\n%(reference[3])\n"
+	--
+	if reference[2] == "First" || reference[2] == "Next" {
+		AYATEMPLATE.MenuItem("次のページへ","OnHeadlinesenseNextPage")
+		--
+		AYATEMPLATE.MenuItem("読む",reference[1])
+		--
+		AYATEMPLATE.MenuItem("読まない","Menu_HeadlineCancel")
+	}
+	else {
+		AYATEMPLATE.MenuItem("読む",reference[1])
+		--
+		AYATEMPLATE.MenuItem("読まない","Menu_HeadlineCancel")
+	}
+}
+
+Menu_HeadlineCancel
+{
+	'\0ヘッドラインを読みませんでした。\e'
+}
+
+OnHeadlinesenseComplete
+{
+	'\p[3]\s[-1]\p[2]\s[2000]\1\s[1000]\0\s[0]ヘッドラインは更新されていませんでした。\w8\e'
+}
+
+OnHeadlinesenseFailure
+{
+	if reference[0] == "can't download" {
+		'\p[3]\s[-1]\p[2]\s[2000]\1\s[1000]\0\s[104]ヘッドライン情報が取得できませんでした。\w8\e'
+	}
+	elseif reference[0] == "can't analyze" {
+		'\p[3]\s[-1]\p[2]\s[2000]\1\s[1000]\0\s[4]ヘッドライン情報の解析に失敗しました。\w8\e'
+	}
+	else {
+		"\p[3]\s[-1]\p[2]\s[2000]\1\s[1000]\0\s[152]「%(SHIORI3FW.EscapeAllTags(reference[1]))」エラー発生です。\w8\e"
+	}
+}
+
