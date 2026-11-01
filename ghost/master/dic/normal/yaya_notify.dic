@@ -181,7 +181,7 @@ NekodorifType
 OnNekodorifObjectEmerge
 {
 	if NekodorifTarget {
-		'\_q\1\s[1000]私が狙われています。\e'
+		'\_q\1\s[1000]ボクが狙われています。\e'
 	}
 	else {
 		'\_q\0\s[2]私が狙われています。\e'
