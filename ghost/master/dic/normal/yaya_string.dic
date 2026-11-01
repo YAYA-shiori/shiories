@@ -14,6 +14,93 @@ On_username
 
 
 //******************************************************************************
+// オーナードローメニュー（右クリックメニューの見た目）
+// 最後に押されたキャラ（yaya_mouse.dic の OnMouseDown が menuscope に覚える）に
+// 合わせて、画像と色を返し分ける。0=華和梨 1=里々 2=文 3=里珠（ゲスト）。
+// 画像は work/menu/make-menu.ps1 で作る（ghost/master/menu/）。
+// 配置（alignment）は、シェルの descript.txt のまま。決まりは DESIGN.md の「メニュー」。
+//******************************************************************************
+On_menu.background.bitmap.filename
+{
+	MenuFile('background')
+}
+
+On_menu.foreground.bitmap.filename
+{
+	MenuFile('foreground')
+}
+
+On_menu.sidebar.bitmap.filename
+{
+	MenuFile('sidebar')
+}
+
+On_menu.background.font.color.r { MenuColor('background', 0) }
+On_menu.background.font.color.g { MenuColor('background', 1) }
+On_menu.background.font.color.b { MenuColor('background', 2) }
+
+On_menu.foreground.font.color.r { MenuColor('foreground', 0) }
+On_menu.foreground.font.color.g { MenuColor('foreground', 1) }
+On_menu.foreground.font.color.b { MenuColor('foreground', 2) }
+
+On_menu.disable.font.color.r { MenuColor('disable', 0) }
+On_menu.disable.font.color.g { MenuColor('disable', 1) }
+On_menu.disable.font.color.b { MenuColor('disable', 2) }
+
+On_menu.separator.color.r { MenuColor('separator', 0) }
+On_menu.separator.color.g { MenuColor('separator', 1) }
+On_menu.separator.color.b { MenuColor('separator', 2) }
+
+On_menu.frame.color.r { MenuColor('frame', 0) }
+On_menu.frame.color.g { MenuColor('frame', 1) }
+On_menu.frame.color.b { MenuColor('frame', 2) }
+
+//メニューのキャラ（menuscope）を 0～3 に直して返す。まだ覚えていない、範囲外のときは華和梨
+MenuScope
+{
+	_s = TOINT(menuscope)
+	if _s < 0 || _s > 3 {
+		_s = 0
+	}
+	_s
+}
+
+MenuFile
+{
+	//_argv[0]: background / foreground / sidebar
+	//背景は全員共通。前景とサイドバーは、キャラごと
+	if _argv[0] == 'background' {
+		'menu/menu_background.png'
+	}
+	else {
+		'menu/menu_' + MenuScope + '_' + _argv[0] + '.png'
+	}
+}
+
+MenuColor
+{
+	//_argv[0]: 項目名、_argv[1]: 0=赤 1=緑 2=青
+	//文字は墨色、選択不可は灰、区切りは薄い罫線の色。枠だけキャラの main
+	_rgb = IARRAY
+	case _argv[0] {
+		when 'background' { _rgb = (28, 29, 33) }
+		when 'foreground' { _rgb = (28, 29, 33) }
+		when 'disable' { _rgb = (138, 141, 150) }
+		when 'separator' { _rgb = (201, 201, 196) }
+		when 'frame' {
+			case MenuScope {
+				when 0 { _rgb = (28, 29, 33) }
+				when 1 { _rgb = (47, 107, 63) }
+				when 2 { _rgb = (155, 63, 58) }
+				others { _rgb = (94, 97, 107) }
+			}
+		}
+	}
+	_rgb[_argv[1]]
+}
+
+
+//******************************************************************************
 // お勧めサイト・ポータルサイト（右クリックメニュー）
 //******************************************************************************
 On_sakura.recommendbuttoncaption

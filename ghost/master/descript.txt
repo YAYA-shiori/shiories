@@ -18,3 +18,7 @@ craftmanurl,http://ms.shillest.net/
 shiori,yaya.dll
 icon,icon.ico
 balloon,Hukidasi7_splashstar
+
+menu.background.alignment,lefttop+repeat-x+repeat-y
+menu.foreground.alignment,lefttop+repeat-y
+menu.sidebar.alignment,bottom

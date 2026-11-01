@@ -47,7 +47,7 @@
 
 ## デザイン
 
-色、書体、サムネイル（`ghost/master/thumbnail.png`）、同梱バルーンの見た目など、画像と文字の決まりは `DESIGN.md` にある。画像や文字を新しく作るときは、先に `DESIGN.md` を読む。
+色、書体、サムネイル（`ghost/master/thumbnail.png`）、同梱バルーン、右クリックメニュー（`ghost/master/menu/`）の見た目など、画像と文字の決まりは `DESIGN.md` にある。画像や文字を新しく作るときは、先に `DESIGN.md` を読む。
 
 ## イベントと辞書ファイルの対応
 
@@ -56,7 +56,7 @@
 | `yaya_core.dic` | 変数の初期化（`OnSystemLoad.SHIORIES`）、起動・終了の記録（`BootStart` `MarkClosed`）、時間帯の判定（`GetTimeZone`） |
 | `yaya_aitalk.dic` | ランダムトーク（`RandomTalkEx`）、チェイントーク、時報・起動時間・重なり（`OnMinuteChange`）、見切れ（`OnSecondChange`）、サーフェス復帰（`OnSurfaceRestore`） |
 | `yaya_bootend.dic` | 初回起動 `OnFirstBoot`、起動 `OnBoot`（時間帯ごとに `Boot_*`）、終了 `OnClose`（`Close_*`） |
-| `yaya_mouse.dic` | マウスへの反応。関数名は「種別＋スコープ番号＋当たり判定名」。撫で反応は段階式（`StrokeLimit*` `StrokeLoop*` `MouseMove*_<段階>`） |
+| `yaya_mouse.dic` | マウスへの反応。関数名は「種別＋スコープ番号＋当たり判定名」。撫で反応は段階式（`StrokeLimit*` `StrokeLoop*` `MouseMove*_<段階>`）。`OnMouseDown` は何も話さず、最後に押されたキャラを `menuscope` に覚える（右クリックメニューの見た目の切り替え用）。あやりりす（システム辞書）の同名の `OnMouseDown` ではなく、こちらが呼ばれる（`shiori.ps1` で確かめた） |
 | `yaya_menu.dic` | メニュー `OpenMenu` と、選択肢ごとの処理 `Menu_*`、ユーザー名の変更 |
 | `yaya_change.dic` | ゴーストの切り替え。`OnGhostChanging_<相手の\0側の名前>` `OnGhostChanged_<…>`、無ければ `…Other` |
 | `yaya_communicate.dic` | ユーザー・他のゴーストとの会話（`ReplyTo*` `TalkTo*`） |
@@ -64,7 +64,7 @@
 | `yaya_notify.dic` | カレンダー、「きのこ」「猫どりふ」、MATERIA、システムリソースの通知への反応 |
 | `yaya_legacy.dic` | 元の OpenKEEPS のイベント名のまま移した反応。アプリケーション通知（`OnApplication*`）、`OnWebsiteUpdateNotify`、UD Sensor（`OnUdsUpdate`）、Winamp / iTunes（`OnMusicPlay` `OnMusicPlayEx`）、RSS（`OnRSS*`）、壁紙（`OnWallpaperChange`）、スケジュール投稿、電池残量。今の SSP が通知しないものも含む |
 | `yaya_effect.dic` | 演出（`Shake` 振動、`Teleport` テレポート）と `ChangeGhostOrClose` |
-| `yaya_string.dic` | ユーザー名、右クリックメニューのボタン名、お勧めサイト・ポータルサイト（`On_*`）、サイトが選ばれたときの反応 |
+| `yaya_string.dic` | ユーザー名、右クリックメニューのボタン名、お勧めサイト・ポータルサイト（`On_*`）、サイトが選ばれたときの反応、右クリックメニューの画像と色（`On_menu.*`、`MenuFile` `MenuColor` `MenuScope`。`menuscope` に合わせて 4 組を返し分ける） |
 | `yaya_word.dic` | トーク中に `%(里々ゴースト)` のように埋め込む単語、`偽暗号` |
 | `yaya_homeurl.dic` | ネットワーク更新の URL（`On_homeurl`） |
 | `yaya_tmpl_util.dic` | テンプレートの内部処理（`AYATEMPLATE.*`）。必要なとき以外は触らない |
