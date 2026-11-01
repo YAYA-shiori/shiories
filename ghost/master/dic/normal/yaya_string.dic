@@ -110,72 +110,55 @@ On_sakura.recommendbuttoncaption
 
 On_sakura.recommendsites_EX : array
 {
-	'まゆら | http://mayura.jp/ | '
+	'まゆら | https://suzuri.jp/junkers_high | '
 	'理夢 | http://khmix.sakura.ne.jp/ | '
-	'アリア | http://park16.wakwak.com/~library/ | '
-	'言葉 | https://ukatech.shillest.net/ | '
-	'ノエリ | http://noeri.sakura.ne.jp/ | '
+	'アリア |  | '
+	'言葉 |  | '
+	'ノエリ |  | '
 	'美耳 | http://pink.rgr.jp/cp2/ | '
-	'夜姫 | http://misaki.halfmoon.jp/ | '
-	'あすね | http://unajyu-toku.hp.infoseek.co.jp/ | '
-	'栄子 | http://nonamefactory.hp.infoseek.co.jp/index.html | '
-	'涼璃 | http://kasokeku.cool.ne.jp/ | '
-	'ととたん | http://harusame.org/ | '
-	'空 | http://himawari.sakura.vg/ | '
-	'奈留 | http://www1.skz.or.jp/~kusumi/klee/ | '
+	'夜姫 |  | '
+	'あすね |  | '
+	'栄子 | https://unebi.shillest.net/ | '
+	'涼璃 |  | '
+	'ととたん |  | '
+	'空 | https://himaoka.booth.pm/ | '
+	'奈留 |  | '
 	'Emily | http://ssp.shillest.net/ | '
-	'ミスト | http://mistnar.hp.infoseek.co.jp/ | '
-	'由加 | http://fa-x.hp.infoseek.co.jp/ | '
-	'レイチェル | http://ryouran.mallotus-villosus.net/ | '
+	'ミスト |  | '
+	'由加 |  | '
+	'レイチェル |  | '
 	'- | - | '
 	'SHIORIES | https://ukatech.shillest.net/ | '
 }
 
 On_kero.recommendbuttoncaption
 {
-	'責任者一同(&R)'
+	'SHIORI(&S)'
 }
 
 On_kero.recommendsites_EX : array
 {
-	'SHIORIES | https://ukatech.shillest.net/ | '
-	'- | - | '
-	'水無月　藍（悪の総帥） | http://ryouran.mallotus-villosus.net | '
-	'C.Ponapalt（真の黒幕） | http://ssp.shillest.net/ | '
-	'さとー（悪の博士） | http://shobu.hp.infoseek.co.jp/ | '
+	'里々 | https://github.com/ukatech/satoriya-shiori | '
+}
+
+On_char2.recommendbuttoncaption
+{
+	'SHIORI(&S)'
+}
+
+On_char2.recommendsites_EX : array
+{
+	'YAYA | https://github.com/YAYA-shiori/yaya-shiori | '
 }
 
 On_portalrootbutton.caption
 {
-	'関係ソフト(&P)'
+	'SHIORI(&S)'
 }
 
 On_sakura.portalsites_EX : array
 {
-	'SSP | http://ssp.shillest.net/ | '
-	'DAE | http://dae.s-software.net/ | '
-	'CROW | http://crow.aqrs.jp/ | '
-	'MATERIA | http://usada.sakura.vg/ | '
-	'ninix-aya | http://ninix-aya.sourceforge.jp/ | '
-	'偽林檎 | http://ccm.sherry.jp/ninni/ | '
-	'- | - | '
-	'SSTP Bottle | http://bottle.mikage.to/ | '
-	'SSSB | http://sssb.undo.jp/sssb.html | '
-	'SSTP-Viewer | http://sakura.nanika.jp/sstpviewer/ | '
-	'SARSその他 | http://ukiya.sakura.ne.jp/ | '
-	'BotCli | http://ccm.sherry.jp/ninni/ | '
-	'- | - | '
-	'華和梨 | http://kawari.sourceforge.net/ | '
-	'里々 | http://www.geocities.jp/poskoma/index.html | '
-	'文 | http://umeici.hp.infoseek.co.jp/ | '
-	'OpenKEEPS | http://keeps.sourceforge.jp | '
-	'- | - | '
-	'うぁー | http://da.pekori.to/wiki/ | '
-	'駄でべWiki | http://emily.nanika.jp/specwiki/ | '
-	'逝（Wiki） | http://wiki.counterghost.net/ | '
-	'里々Wiki | http://mac.gn.to/satori/ | '
-	'文屋 | http://emily.nanika.jp/ayaya/ | '
-	'OpenKEEPS Wiki | http://keeps.sourceforge.jp/wiki/ | '
+	'華和梨 | https://github.com/ukatech/kawari | '
 }
 
 
@@ -219,6 +202,11 @@ On_sakura.portalsites
 On_kero.recommendsites
 {
 	AYATEMPLATE.LinkMenuConvert(On_kero.recommendsites_EX)
+}
+
+On_char2.recommendsites
+{
+	AYATEMPLATE.LinkMenuConvert(On_char2.recommendsites_EX)
 }
 
 
