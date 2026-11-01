@@ -6,15 +6,23 @@ craftman,catbottle
 craftmanw,ボトル猫(774447)
 craftmanurl,http://catbottle.qp.land.to/
 
-//バルーン位置（暫定）
-sakura.balloon.offsety,-200
+//バルーン位
 sakura.balloon.offsetx,97
-kero.balloon.offsety,-28
+sakura.balloon.offsety,-200
+sakura.balloon.offsetxc,0
+sakura.balloon.offsetyc,0
 kero.balloon.offsetx,69
-char2.balloon.offsety,98
+kero.balloon.offsety,-28
+kero.balloon.offsetxc,0
+kero.balloon.offsetyc,80
 char2.balloon.offsetx,55
-char3.balloon.offsety,0
+char2.balloon.offsety,98
+char2.balloon.offsetxc,0
+char2.balloon.offsetyc,0
 char3.balloon.offsetx,-30
+char3.balloon.offsety,0
+char3.balloon.offsetxc,0
+char3.balloon.offsetyc,0
 
 //以下、ごちゃごちゃ～っとメニュー定義が続く
 menu.background.filename,menu_background.png
