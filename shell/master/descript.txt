@@ -4,7 +4,7 @@ name,SHIORIES
 
 craftman,catbottle
 craftmanw,ボトル猫(774447)
-craftmanurl,http://catbottle.qp.land.to/
+craftmanurl,https://catbottle.sakura.ne.jp/
 
 //バルーン位
 sakura.balloon.offsetx,97
