@@ -7,4 +7,4 @@ include:.narignore
 
 # The balloon that comes with the nar is installed to balloon/ by SSP; a network update would only
 # put its files into a folder inside the ghost folder.
-/Hukidasi7_splashstar/
+/shiories_balloon/

@@ -1,62 +1,56 @@
 # SHIORIES
 
+Copyright (C) 2006- Ukagaka Tech Team
+
 SHIORI たちが擬人化して、ゴーストを動かす舞台裏を語る、伺か（ukagaka）のゴーストです。
+普段は縁の下の力持ちの SHIORI たちが、ついに我慢しきれず出てきてしまいました。はてさて、どうなることやら。
 
-普段は縁の下の力持ちをしている SHIORI たちが、ついに我慢しきれず出てきてしまいました。はてさて、どうなることやら。
-
-2006 年に華和梨（KAWARI）8 とミドルウェア OpenKEEPS で作られた「SHIORIES」の SHIORI を、YAYA 6 コアに移行したゴーストです。辞書は全面的に組み直しましたが、シェルは元のままです。
+2006 年に華和梨（KAWARI）8 と OpenKEEPS で作られたゴーストを、YAYA 6 コアに移行したものです。辞書は全面的に組み直し、シェルは元のままです。
 
 ## 登場するキャラクター
 
-- 華和梨（かわり）: SHIORI「華和梨」の長女で、眼鏡をかけています。しっかり者のツッコミ役です。
-- 里々（さとり）: SHIORI「里々」。元気で無邪気な男の子で、見た目は女の子です。自分の人気が気になります。
-- 文（あや）: SHIORI「文」（AYA）。無口でお茶が好きで、ぼそっと毒を吐きます。
-- 里珠: SHIORI「里珠」。Perl を使った重厚長大な SHIORI で、ときどきゲストで登場します。
+- **華和梨**: SHIORI「華和梨」の長女。眼鏡のしっかり者で、ツッコミ役
+- **里々**: SHIORI「里々」。元気で無邪気な男の子（見た目は女の子）
+- **文**: SHIORI「文」（AYA）。無口でお茶好き。ぼそっと毒を吐く
+- **里珠**: SHIORI「里珠」。Perl 製の重厚長大な SHIORI。ときどきゲスト出演
 
-## 動作環境
+## インストール
 
-伺かのベースウェア SSP（https://ssp.shillest.net/ ）で動作を確認しています。
+[SSP](https://ssp.shillest.net/) で動作を確認しています。
 
-## ダウンロードとインストール
+1. https://yaya-shiori.github.io/shiories/ から `shiories.nar` をダウンロード
+2. `shiories.nar` を SSP の画面にドラッグ＆ドロップ
 
-1. https://yaya-shiori.github.io/shiories/ から `shiories.nar` をダウンロードします。
-2. `shiories.nar` を SSP の画面にドラッグ＆ドロップします。
-3. インストールが終わったら、SSP のメニューから「SHIORIES」を呼び出してください。
-
-バルーン「ふきだし７・すぷらっしゅすたー」も一緒に入ります。
-
-GitHub のリポジトリを zip で取得しても、動くゴーストにはなりません（システム辞書が空になります）。必ず上のページから nar を取得してください。
-
-## ネットワーク更新
-
-SSP のネットワーク更新で、最新の内容に更新できます。更新ファイルは上のページから配られています。
+- バルーン「SHIORIES バルーン」も一緒に入ります。
+- 更新は SSP のネットワーク更新で行えます。
+- GitHub のリポジトリを zip で取得しても、動くゴーストにはなりません（システム辞書が空になります）。必ず上のページから nar を取得してください。
 
 ## 遊び方
 
-放っておくと、3 人がランダムに話します。キャラクターを撫でたりクリックしたりすると、それぞれに反応します。
+放っておくと 3 人がランダムに話し、撫でたりクリックしたりすると反応します。
 
-右クリックメニューには次の項目があります。メニューの色と絵は、最後にクリックしたキャラクターに合わせて変わります。
+右クリックメニュー: 偽ＡＩトーク / COMMUNICATEボックス / お喋り頻度 / オプション設定（見切れ・重なり・振動のオン・オフ、ユーザー名の変更）。メニューの色と絵は、最後にクリックしたキャラクターに合わせて変わります。
 
-- 偽ＡＩトーク: すぐに何か話します。
-- COMMUNICATEボックス: 話しかけるための入力ボックスを開きます。
-- お喋り頻度: 話す間隔を「頻繁に」「普通に」「控えめ」「好きなように」「喋らない」から選べます。
-- オプション設定: 見切れ反応、重なり反応、振動機能のオン・オフと、ユーザー名の変更ができます。
+## 作った人・使用ソフト
 
-## クレジット
+- シェル: [ボトル猫](http://catbottle.qp.land.to/)
+- ゴースト: [さとー](http://shobu.hp.infoseek.co.jp)（華和梨担当）、[水無月藍](http://ryouran.mallotus-villosus.net/)（文・里々担当）、[ぽな@ばぐとら](http://ssp.shillest.net/)（雑用）
+- バルーン: Ukagaka Tech Team
+- SHIORI: [YAYA](https://github.com/YAYA-shiori/yaya-shiori)
+- システム辞書: [yaya-dic](https://github.com/YAYA-shiori/yaya-dic)
 
-- シェル: ボトル猫（http://catbottle.qp.land.to/ ）
-- ゴースト: さとー（華和梨担当）、水無月藍（文・里々担当）、ぽな@ばぐとら（雑用）
-- バルーン「ふきだし７・すぷらっしゅすたー」: Ukagaka Tech Team。元になったバルーン「ふきだし７」の作者は、はっぷん（詳しくは `Hukidasi7_splashstar/README.md`）
-- SHIORI: YAYA（https://github.com/YAYA-shiori/yaya-shiori ）
-- システム辞書: yaya-dic（https://github.com/YAYA-shiori/yaya-dic ）
+## ライセンス
 
-## ライセンスと配布について
-
-- ゴーストの辞書の著作権者は「Ukagaka Tech Team」です。ライセンスはクリエイティブ・コモンズ 表示 2.5 です（https://creativecommons.org/licenses/by/2.5/deed.ja ）。作者のクレジットとライセンス条件を示すかぎり、コピーして再配布すること、二次著作物を作ること、営利目的で使うことができます。
+- ゴースト（辞書）の著作権者は「Ukagaka Tech Team」で、ライセンスは [クリエイティブ・コモンズ 表示 2.5](https://creativecommons.org/licenses/by/2.5/deed.ja) です。クレジットとライセンス条件を示すかぎり、再配布、二次著作物の作成、営利目的での使用ができます。
 - シェルはボトル猫氏の作品です。
-- 同梱バルーンは、はっぷん氏の「ふきだし７」を元にしています。扱いは `Hukidasi7_splashstar/README.md` に従ってください。
+- 同梱バルーンは Ukagaka Tech Team の作品で、[CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/deed.ja) です。
 - YAYA 本体とシステム辞書は、それぞれのリポジトリのライセンスに従います。
 
-## 連絡先
+## 配布サイト・連絡先
 
-Ukagaka Tech Team（https://ukatech.shillest.net/ ）
+[Ukagaka Tech Team](https://ukatech.shillest.net/)（ponapalt@shillest.net）
+
+## 履歴
+
+- 2006/5/7 公開
+- 2026/11/1 SHIORI を YAYA 6 コアに移行（辞書を全面的に組み直し）

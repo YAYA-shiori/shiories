@@ -1,0 +1,6 @@
+charset,UTF-8
+type,balloon
+name,SHIORIES Balloon
+directory,shiories_balloon
+refresh,1
+

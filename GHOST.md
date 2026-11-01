@@ -11,15 +11,15 @@
 - ネットワーク更新の URL（`On_homeurl`）は `https://yaya-shiori.github.io/shiories/`（GitHub Pages）。`ghost/master/dic/normal/yaya_homeurl.dic` と `ghost/master/dic/emerg/yaya_homeurl.dic` の 2 か所に書く。この URL の直下に `updates2.dau`、`delete.txt`、nar を GitHub Actions でデプロイする（`updates2.dau` と `updates.txt` は `.gitignore` で除外してある。`ghost/master/dic/system` は submodule で、GitHub の raw からは配れないため）。
 - 配布物は `.github/workflows/auto_deploy.yml` が作る。辞書チェック（`auto check`）が通った `main` / `master` の push ごとに、`.github/scripts/build-site.ps1` が nar（`.narignore` で除外）と更新ファイル一式（`.updateignore` で除外）を作って Pages に出す。手元でも `pwsh ./.github/scripts/build-site.ps1 -OutDir site`（`-ListOnly` で一覧だけ）で同じものが作れる。リポジトリの Settings > Pages > Source は「GitHub Actions」にしておく。
 - nar は GitHub Releases にも置く。タグ `latest` の Release 1 件だけを持ち、デプロイのたびに前の Release をタグごと消して、最新の nar 1 つで作り直す（`auto_deploy.yml` の `release` ジョブ。Pages のデプロイが成功したあとに動く）。固定の URL は `https://github.com/YAYA-shiori/shiories/releases/latest/download/shiories.nar`。
-- 同梱バルーン `Hukidasi7_splashstar/` は nar には入れるが、ゴーストの更新ファイルには入れない（`.updateignore`）。バルーンには単独の `updates2.dau` と `updates.txt` を作り、`https://yaya-shiori.github.io/shiories/Hukidasi7_splashstar/` に出す。`Hukidasi7_splashstar/descript.txt` の `homeurl` がそこを指す。どのバルーンを対象にするかは、`install.txt` の `balloon.directory`（と `balloon.source.directory`）から読む。
+- 同梱バルーン `shiories_balloon/` は nar には入れるが、ゴーストの更新ファイルには入れない（`.updateignore`）。バルーンには単独の `updates2.dau` と `updates.txt` を作り、`https://yaya-shiori.github.io/shiories/shiories_balloon/` に出す。`shiories_balloon/descript.txt` の `homeurl` がそこを指す。どのバルーンを対象にするかは、`install.txt` の `balloon.directory`（と `balloon.source.directory`）から読む。
 - 旧版の利用者は、旧版が報告する `http://ms.shillest.net/ghost/shiories/` から更新する。この版を届けるには、そちらにも公開する必要がある。
-- 作った人と分担は `readme.txt` にある。
+- ゴーストの説明（遊び方、インストール、作った人、ライセンス、連絡先、履歴）は `README.md` 1 つにまとめてある。Markdown で書く。SSP が読む利用者向けの説明で、GitHub のトップにも出る。`readme.txt` は置かない。
 
 ## ライセンス
 
-- ゴースト（辞書）の著作権者は「Ukagaka Tech Team」。ライセンスは クリエイティブ・コモンズ 表示 2.5（`readme.txt`）。
+- ゴースト（辞書）の著作権者は「Ukagaka Tech Team」。ライセンスは クリエイティブ・コモンズ 表示 2.5（`README.md`）。
 - シェル `shell/master/` の作者はボトル猫氏（`shell/master/descript.txt`）。**画像は編集しない。**
-- 同梱バルーン `Hukidasi7_splashstar/` は、はっぷん氏の「ふきだし７」を元にしている。原作は転載を「出来る限り不許可」としているが、同梱の許可をいただいたうえで、Ukagaka Tech Team がこのゴースト向けに改造した（`descript.txt` の `craftman` は Ukagaka Tech Team）。画像は編集してよい。利用者向けの説明は `Hukidasi7_splashstar/README.md`。
+- 同梱バルーン `shiories_balloon/` は、Ukagaka Tech Team がこのゴースト向けに作った（`descript.txt` の `craftman` は Ukagaka Tech Team）。ライセンスは CC0 1.0（パブリックドメイン献呈。ゴースト本体の CC 表示 2.5 とは別）。画像は編集してよい。利用者向けの説明は `shiories_balloon/README.md`。
 
 ## キャラクターとサーフェス
 
@@ -43,8 +43,8 @@
 - `ghost/master/dic/system/` はシステム辞書（yaya-dic の submodule）。**編集しない。**
 - 旧版（華和梨 + OpenKEEPS）の `kawarirc.kis`、`openkeeps/`、`template/`、`saori/` は無くなった。`delete.txt` で、ネットワーク更新のときに消す。
 - `neta.txt` は作者のメモ（ネタ箇条書きと会話サンプル）。辞書には読み込まれない。
-- `Hukidasi7_splashstar/` は同梱するバルーン「ふきだし７・すぷらっしゅすたー」。`install.txt` の `balloon.directory` が指す。このゴースト向けに改造してある（`DESIGN.md` の「バルーン」）。
-- 文字コードは UTF-8（BOM なし、LF）。**`shell/` だけは元の Shift_JIS・CRLF のまま**で、`.gitattributes` と `.editorconfig` で Git やエディタに変換させないようにしてある（`shell/master/descript.txt` と `surfacetable.txt`）。`readme.txt`、`neta.txt`、バルーンのテキストは UTF-8 に変換した（`charset,UTF-8` を明記）。
+- `shiories_balloon/` は同梱するバルーン「SHIORIES バルーン」。`install.txt` の `balloon.directory` が指す。画像は `work/balloon/make-balloon.ps1` が作る（`DESIGN.md` の「バルーン」）。
+- 文字コードは UTF-8（BOM なし、LF）。**`shell/` だけは元の Shift_JIS・CRLF のまま**で、`.gitattributes` と `.editorconfig` で Git やエディタに変換させないようにしてある（`shell/master/descript.txt` と `surfacetable.txt`）。`README.md`、`neta.txt`、バルーンのテキストは UTF-8 に変換した（`charset,UTF-8` を明記）。
 
 ## デザイン
 

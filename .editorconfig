@@ -14,7 +14,7 @@ end_of_line = unset
 indent_style = unset
 
 # バルーンの台詞用ファイル（balloon*s.txt）は書式が決まっているので、インデントを変えない
-[Hukidasi7_splashstar/**]
+[shiories_balloon/**]
 indent_style = unset
 
 [*.{ps1,cs}]

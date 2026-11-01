@@ -17,7 +17,7 @@ craftmanurl,https://ukatech.shillest.net/
 
 shiori,yaya.dll
 icon,icon.ico
-balloon,Hukidasi7_splashstar
+balloon,shiories_balloon
 
 menu.background.alignment,lefttop+repeat-x+repeat-y
 menu.foreground.alignment,lefttop+repeat-y
