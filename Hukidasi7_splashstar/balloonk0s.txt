@@ -1,0 +1,10 @@
+anchor.font.color.r,47
+anchor.font.color.g,107
+anchor.font.color.b,63
+
+cursor.brush.color.r,47
+cursor.brush.color.g,107
+cursor.brush.color.b,63
+cursor.pen.color.r,47
+cursor.pen.color.g,107
+cursor.pen.color.b,63

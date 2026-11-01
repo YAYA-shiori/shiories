@@ -23,25 +23,25 @@ wordwrappoint.y,0
 
 font.name,ＭＳ ゴシック
 font.height,12
-font.color.r,117
-font.color.g,66
-font.color.b,0
+font.color.r,28
+font.color.g,29
+font.color.b,33
 
-anchor.font.color.r,222
-anchor.font.color.g,158
-anchor.font.color.b,113
+anchor.font.color.r,47
+anchor.font.color.g,111
+anchor.font.color.b,214
 
 cursor.blendmethod,none
 cursor.style,square
-cursor.brush.color.r,222
-cursor.brush.color.g,158
-cursor.brush.color.b,113
-cursor.pen.color.r,222
-cursor.pen.color.g,158
-cursor.pen.color.b,113
+cursor.brush.color.r,47
+cursor.brush.color.g,111
+cursor.brush.color.b,214
+cursor.pen.color.r,47
+cursor.pen.color.g,111
+cursor.pen.color.b,214
 cursor.font.color.r,255
-cursor.font.color.g,222
-cursor.font.color.b,199
+cursor.font.color.g,255
+cursor.font.color.b,255
 
 cursor,NULL
 
@@ -57,16 +57,16 @@ sstpmarker.x,15
 sstpmarker.y,-25
 
 sstpmessage.font.height,11
-sstpmessage.font.color.r,255
-sstpmessage.font.color.g,163
-sstpmessage.font.color.b,99
+sstpmessage.font.color.r,94
+sstpmessage.font.color.g,97
+sstpmessage.font.color.b,107
 sstpmessage.x,28
 sstpmessage.y,-25
 
 number.font.height,11
-number.font.color.r,255
-number.font.color.g,163
-number.font.color.b,99
+number.font.color.r,94
+number.font.color.g,97
+number.font.color.b,107
 number.xr,-22
 number.y,-25
 

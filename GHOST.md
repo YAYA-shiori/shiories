@@ -18,6 +18,7 @@
 
 - ゴースト（辞書）の著作権者は「整備班」。ライセンスは クリエイティブ・コモンズ 表示 2.5（`readme.txt`）。
 - シェル `shell/master/` の作者はボトル猫氏（`shell/master/descript.txt`）。**画像は編集しない。**
+- 同梱バルーン `Hukidasi7_splashstar/` の原作者は、はっぷん氏（`readme_original.txt` は転載を「出来る限り不許可」としている）。このバルーンは改造して使う作風で、このゴーストの作者が改造を了承している。画像は編集してよい。
 
 ## キャラクターとサーフェス
 
@@ -41,8 +42,26 @@
 - `ghost/master/dic/system/` はシステム辞書（yaya-dic の submodule）。**編集しない。**
 - 旧版（華和梨 + OpenKEEPS）の `kawarirc.kis`、`openkeeps/`、`template/`、`saori/` は無くなった。`delete.txt` で、ネットワーク更新のときに消す。
 - `neta.txt` は作者のメモ（ネタ箇条書きと会話サンプル）。辞書には読み込まれない。
-- `Hukidasi7_splashstar/` は同梱するバルーン「ふきだし７・すぷらしゅすたー」（Happen / 水無月藍）。`install.txt` の `balloon.directory` が指す。**編集しない。**
+- `Hukidasi7_splashstar/` は同梱するバルーン「ふきだし７・すぷらしゅすたー」（Happen / 水無月藍）。`install.txt` の `balloon.directory` が指す。このゴースト向けに改造してある（下の「バルーン」）。
 - 文字コードは UTF-8（BOM なし、LF）。**`shell/` だけは元の Shift_JIS・CRLF のまま**で、`.gitattributes` と `.editorconfig` で Git やエディタに変換させないようにしてある（`shell/master/descript.txt` と `surfacetable.txt`）。`readme.txt`、`neta.txt`、バルーンのテキストは UTF-8 に変換した（`charset,UTF-8` を明記）。
+
+## バルーン
+
+同梱バルーン `Hukidasi7_splashstar/` は、頭上に出す吹き出し（左向きだけ）に絞ってある。キャラクターごとにテーマ色を変えている。色は https://github.com/ukatech/ukatech.github.io の `DESIGN.md` と `site/assets/tokens.css`（ライトモード）から取った。バルーンには暗色の切り替えが無いので、ライトの値だけを使う。
+
+| スコープ | 吹き出しの画像 | main（枠） | sub（内側の線） | アンカーとカーソル |
+|---|---|---|---|---|
+| `\0` 華和梨 | `balloons0.png` | `#1c1d21` | `#c4262e` | sub（`balloons0s.txt`） |
+| `\1` 里々 | `balloonk0.png` | `#2f6b3f` | `#b48e3e` | main（`balloonk0s.txt`） |
+| `\p[2]` 文（YAYA） | `balloonp2def0.png` | `#9b3f3a` | `#1c1d21` | main（`balloonp2def0s.txt`） |
+| `\p[3]` 里珠（ゲスト） | `balloonp3def0.png` | `#5e616b` | `#8a8d96` | `descript.txt` の共通の色（`#2f6fd6`） |
+
+- 地の色は、どの吹き出しも生成り（`#fafaf8`）。色は枠と、左右の内側の 2 本線（sub）だけに使う。文字は共通で墨色（`#1c1d21`）。
+- 矢印（`arrows*` `arrowk*` `arrowp2def*` `arrowp3def*`）、SSTP のマーカー（`sstp_new*`）、オンライン表示（`onlines*` `onlinek*` `onlinep2def*` `onlinep3def*`）も、同じ組ごとの色にしてある。`arrow0/1`、`sstp.png`、`online0/1`、入力ボックス（`balloonc0-5.png`）は、組に属さない色（ゲストと同じ無彩色）。
+- 入力ボックスは、元の `balloonc0.png` から「SEND FOR...」の文字を消し、真ん中の同じ行の帯（元の 17〜47 行目）を増減して高さを変えたうえで、左上にラベルを描いた（Consolas 13px、`#5e616b`。サイトの `--font-mono` に合わせた）。`balloonc0-4.png`（Send / Communicate / Teach / Input / Address Bar）は 400x57、`balloonc5.png`（Textarea、複数行入力）は 400x150。入力欄はラベルの下に置くので、位置は元のまま `descript.txt` の `communicatebox.*`（`y` は 21、高さは 20）で、`c5` だけ `balloonc5s.txt` で高さを 113 にしている。
+- 元のオレンジのバルーンの色は、すべて R=255 で G だけが違う 1 本の階調（地 G=222、外枠 G=163、内側の線 G=185、影はその間）だった。そこで、画素の G の値に応じて、地・main・sub に対応させて塗り替えた。パレット形式の PNG のまま、透過色の緑（`#00ff00`）も残している。色を変えたいときは、この対応をもう一度かける。元のオレンジの画像は、コミット「バルーン Hukidasi7_splashstar の頭上バルーン向けに不要な定義を削除して最適化する」にある。
+- `thumbnail.pnr`（メニューに出るロゴ）は元のまま。
+- 本体用の SSTP マーカーの名前は、UKADOC に `sstp_new` と `sstp_news` の両方が出てくるので、どちらも置いてある。矢印、SSTP マーカー、オンライン表示が組ごとに切り替わることは、SSP では未確認（吹き出しの画像と、`balloons0s.txt` などによるアンカーの色の上書きは、SSP で確かめた）。
 
 ## イベントと辞書ファイルの対応
 

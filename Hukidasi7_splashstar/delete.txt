@@ -4,3 +4,7 @@ balloonk1.png
 balloons1s.txt
 balloons0s.txt
 balloons1.png
+balloons2.png
+balloons2s.txt
+balloons3.png
+balloons3s.txt
