@@ -7,7 +7,7 @@
 
 - 伺か（ukagaka）のゴースト。SHIORI たちが擬人化して、ゴーストを動かす舞台裏を語る。
 - 2006 年に華和梨（KAWARI）8 とミドルウェア OpenKEEPS で作られた。**YAYA 6 コア版として、辞書を全面的に組み直した**（シェルはそのまま）。
-- 配布元: http://ms.shillest.net/ 、リポジトリ: https://github.com/YAYA-shiori/shiories
+- 配布元: Ukagaka Tech Team（https://ukatech.shillest.net/ ）、リポジトリ: https://github.com/YAYA-shiori/shiories
 - ネットワーク更新の URL（`On_homeurl`）は `https://yaya-shiori.github.io/shiories/`（GitHub Pages）。`ghost/master/dic/normal/yaya_homeurl.dic` と `ghost/master/dic/emerg/yaya_homeurl.dic` の 2 か所に書く。この URL の直下に `updates2.dau`、`delete.txt`、nar を GitHub Actions でデプロイする（`updates2.dau` と `updates.txt` は `.gitignore` で除外してある。`ghost/master/dic/system` は submodule で、GitHub の raw からは配れないため）。
 - 配布物は `.github/workflows/auto_deploy.yml` が作る。辞書チェック（`auto check`）が通った `main` / `master` の push ごとに、`.github/scripts/build-site.ps1` が nar（`.narignore` で除外）と更新ファイル一式（`.updateignore` で除外）を作って Pages に出す。手元でも `pwsh ./.github/scripts/build-site.ps1 -OutDir site`（`-ListOnly` で一覧だけ）で同じものが作れる。リポジトリの Settings > Pages > Source は「GitHub Actions」にしておく。
 - 同梱バルーン `Hukidasi7_splashstar/` は nar には入れるが、ゴーストの更新ファイルには入れない（`.updateignore`）。バルーンには単独の `updates2.dau` と `updates.txt` を作り、`https://yaya-shiori.github.io/shiories/Hukidasi7_splashstar/` に出す。`Hukidasi7_splashstar/descript.txt` の `homeurl` がそこを指す。どのバルーンを対象にするかは、`install.txt` の `balloon.directory`（と `balloon.source.directory`）から読む。
@@ -16,9 +16,9 @@
 
 ## ライセンス
 
-- ゴースト（辞書）の著作権者は「整備班」。ライセンスは クリエイティブ・コモンズ 表示 2.5（`readme.txt`）。
+- ゴースト（辞書）の著作権者は「Ukagaka Tech Team」。ライセンスは クリエイティブ・コモンズ 表示 2.5（`readme.txt`）。
 - シェル `shell/master/` の作者はボトル猫氏（`shell/master/descript.txt`）。**画像は編集しない。**
-- 同梱バルーン `Hukidasi7_splashstar/` の原作者は、はっぷん氏（`readme_original.txt` は転載を「出来る限り不許可」としている）。このバルーンは改造して使う作風で、このゴーストの作者が改造を了承している。画像は編集してよい。
+- 同梱バルーン `Hukidasi7_splashstar/` は、はっぷん氏の「ふきだし７」を元にしている。原作は転載を「出来る限り不許可」としているが、同梱の許可をいただいたうえで、Ukagaka Tech Team がこのゴースト向けに改造した（`descript.txt` の `craftman` は Ukagaka Tech Team）。画像は編集してよい。利用者向けの説明は `Hukidasi7_splashstar/README.md`。
 
 ## キャラクターとサーフェス
 
@@ -42,7 +42,7 @@
 - `ghost/master/dic/system/` はシステム辞書（yaya-dic の submodule）。**編集しない。**
 - 旧版（華和梨 + OpenKEEPS）の `kawarirc.kis`、`openkeeps/`、`template/`、`saori/` は無くなった。`delete.txt` で、ネットワーク更新のときに消す。
 - `neta.txt` は作者のメモ（ネタ箇条書きと会話サンプル）。辞書には読み込まれない。
-- `Hukidasi7_splashstar/` は同梱するバルーン「ふきだし７・すぷらしゅすたー」。`install.txt` の `balloon.directory` が指す。このゴースト向けに改造してある（`DESIGN.md` の「バルーン」）。
+- `Hukidasi7_splashstar/` は同梱するバルーン「ふきだし７・すぷらっしゅすたー」。`install.txt` の `balloon.directory` が指す。このゴースト向けに改造してある（`DESIGN.md` の「バルーン」）。
 - 文字コードは UTF-8（BOM なし、LF）。**`shell/` だけは元の Shift_JIS・CRLF のまま**で、`.gitattributes` と `.editorconfig` で Git やエディタに変換させないようにしてある（`shell/master/descript.txt` と `surfacetable.txt`）。`readme.txt`、`neta.txt`、バルーンのテキストは UTF-8 に変換した（`charset,UTF-8` を明記）。
 
 ## デザイン

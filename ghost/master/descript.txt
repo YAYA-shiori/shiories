@@ -11,9 +11,9 @@ char3.name,里珠
 
 title,Moira of ghost
 
-craftman,MaintenanceShop
-craftmanw,整備班
-craftmanurl,http://ms.shillest.net/
+craftman,UkagakaTechTeam
+craftmanw,Ukagaka Tech Team
+craftmanurl,https://ukatech.shillest.net/
 
 shiori,yaya.dll
 icon,icon.ico

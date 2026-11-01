@@ -1,5 +1,5 @@
 ゴースト"SHIORIES"
-Copyright (C) 2006- The Maintenance Shop
+Copyright (C) 2006- Ukagaka Tech Team
 
 ・本体体ズとは違い日ごろ縁の下の力持ちの役割を担っているSHIORIたちでしたが、
   ついに我慢しきれず出てきてしまいました。はてさて、どうなることやら。
@@ -31,7 +31,7 @@ Copyright (C) 2006- The Maintenance Shop
 
 
 ■ Copyright
-・このゴーストの著作権者は「整備班」とします。
+・このゴーストの著作権者は「Ukagaka Tech Team」とします。
 ・このゴーストのライセンスは、クリエイティブ・コモンズの「表示 2.5」です。
   http://creativecommons.org/licenses/by/2.5/deed.ja
 
@@ -43,8 +43,8 @@ Copyright (C) 2006- The Maintenance Shop
 ・著作[権]者から許可を得ると、これらの条件は適用されません。
 
 ■ 配布サイト＆連絡先
-・整備班 -The Maintenance Shop-
-  http://ms.shillest.net/
+・Ukagaka Tech Team
+  https://ukatech.shillest.net/
   E-mail: ponapalt@shillest.net
 
 ------------------------------------------

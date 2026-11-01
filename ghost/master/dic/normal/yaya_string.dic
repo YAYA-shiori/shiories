@@ -113,7 +113,7 @@ On_sakura.recommendsites_EX : array
 	'まゆら | http://mayura.jp/ | '
 	'理夢 | http://khmix.sakura.ne.jp/ | '
 	'アリア | http://park16.wakwak.com/~library/ | '
-	'言葉 | http://ms.shillest.net/ | '
+	'言葉 | https://ukatech.shillest.net/ | '
 	'ノエリ | http://noeri.sakura.ne.jp/ | '
 	'美耳 | http://pink.rgr.jp/cp2/ | '
 	'夜姫 | http://misaki.halfmoon.jp/ | '
@@ -128,7 +128,7 @@ On_sakura.recommendsites_EX : array
 	'由加 | http://fa-x.hp.infoseek.co.jp/ | '
 	'レイチェル | http://ryouran.mallotus-villosus.net/ | '
 	'- | - | '
-	'SHIORIES | http://ms.shillest.net/ | '
+	'SHIORIES | https://ukatech.shillest.net/ | '
 }
 
 On_kero.recommendbuttoncaption
@@ -138,7 +138,7 @@ On_kero.recommendbuttoncaption
 
 On_kero.recommendsites_EX : array
 {
-	'SHIORIES | http://ms.shillest.net/ | '
+	'SHIORIES | https://ukatech.shillest.net/ | '
 	'- | - | '
 	'水無月　藍（悪の総帥） | http://ryouran.mallotus-villosus.net | '
 	'C.Ponapalt（真の黒幕） | http://ssp.shillest.net/ | '

@@ -1,10 +1,10 @@
 charset,UTF-8
 type,balloon
-name,ふきだし７・すぷらしゅすたー
+name,ふきだし７・すぷらっしゅすたー
 id,Hukidasi7_splashstar
-craftman,Happen/Ran
-craftmanw,はっぷん/水無月藍
-craftmanurl,http://www.iris.dti.ne.jp/~brook/happen/
+craftman,UkagakaTechTeam
+craftmanw,Ukagaka Tech Team
+craftmanurl,https://ukatech.shillest.net/
 homeurl,https://yaya-shiori.github.io/shiories/Hukidasi7_splashstar/
 
 origin.x,13
