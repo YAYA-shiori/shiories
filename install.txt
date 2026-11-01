@@ -1,6 +1,6 @@
 charset,UTF-8
 type,ghost
-name,萌えSHIORI～ず
+name,SHIORIES
 directory,shiories
 balloon.directory,Hukidasi7_splashstar
 

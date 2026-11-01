@@ -1,4 +1,4 @@
-# SHIORIES（萌えSHIORI～ず）
+# SHIORIES
 
 SHIORI たちが擬人化して、ゴーストを動かす舞台裏を語る伺か（ukagaka）のゴーストです。
 

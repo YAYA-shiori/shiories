@@ -41,7 +41,7 @@ On_sakura.recommendsites_EX : array
 	'由加 | http://fa-x.hp.infoseek.co.jp/ | '
 	'レイチェル | http://ryouran.mallotus-villosus.net/ | '
 	'- | - | '
-	'萌えSHIORI～ず | http://ms.shillest.net/ | '
+	'SHIORIES | http://ms.shillest.net/ | '
 }
 
 On_kero.recommendbuttoncaption
@@ -51,7 +51,7 @@ On_kero.recommendbuttoncaption
 
 On_kero.recommendsites_EX : array
 {
-	'萌えSHIORI～ず | http://ms.shillest.net/ | '
+	'SHIORIES | http://ms.shillest.net/ | '
 	'- | - | '
 	'水無月　藍（悪の総帥） | http://ryouran.mallotus-villosus.net | '
 	'C.Ponapalt（真の黒幕） | http://ssp.shillest.net/ | '
