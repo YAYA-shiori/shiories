@@ -74,7 +74,7 @@
 | `yaya_menu.dic` | メニュー `OpenMenu` と、選択肢ごとの処理 `Menu_*`、ユーザー名の変更 |
 | `yaya_change.dic` | ゴーストの切り替え。`OnGhostChanging_<相手の\0側の名前>` `OnGhostChanged_<…>`、無ければ `…Other` |
 | `yaya_communicate.dic` | ユーザー・他のゴーストとの会話（`ReplyTo*` `TalkTo*`） |
-| `yaya_etc.dic` | 汎用イベントトーク（インストール、更新、メール等）、最小化復帰、消滅指示、時計合わせ、ヘッドライン |
+| `yaya_etc.dic` | 汎用イベントトーク（インストール、更新、メール等）、最小化復帰、消滅指示、時計合わせ、ヘッドライン、スクリーンセーバー終了、壁紙の変更、解像度の変更 |
 | `yaya_notify.dic` | カレンダー、「きのこ」「猫どりふ」、MATERIA、システムリソースの通知への反応 |
 | `yaya_legacy.dic` | 元の OpenKEEPS のイベント名のまま移した反応。アプリケーション通知（`OnApplication*`）、`OnWebsiteUpdateNotify`、UD Sensor（`OnUdsUpdate`）、Winamp / iTunes（`OnMusicPlay` `OnMusicPlayEx`）、RSS（`OnRSS*`）、壁紙（`OnWallpaperChange`）、スケジュール投稿、電池残量。今の SSP が通知しないものも含む |
 | `yaya_effect.dic` | 演出（`Shake` 振動、`Teleport` テレポート）と `ChangeGhostOrClose` |
