@@ -3,6 +3,7 @@
 
 決まり: 各スコープの最初の発話には `\\n\\n[half]` を付けない。
 話し手が交代して、そのスコープが 2 回目以降に話すときだけ付ける。
+基準は、`\\n\\n[half]` のあとで次に話すスコープ（直前の話し手ではない）。
 `\\_s[0,1]…\\_s`（同時発話）で話したスコープは、話し済みとして数える。
 
 使い方（リポジトリのルートで）:
@@ -33,21 +34,45 @@ TOK = re.compile(
 SCOPE = {'\\h': 0, '\\u': 1, '\\0': 0, '\\1': 1}
 
 
+def parse_sync(g):
+    return None if g == '\\_s' else {int(x) for x in g[4:-1].split(',') if x}
+
+
+def next_speakers(toks, i, cur, sync):
+    """toks[i] の \\n\\n[half] のあとで、最初に文字を話すスコープの集合を返す（話さなければ空）。"""
+    for u in toks[i + 1:]:
+        k = u.lastgroup
+        if k == 'scope':
+            cur = int(u.group('pn')) if u.group('pn') else SCOPE[u.group('scope')]
+        elif k == 'sync':
+            sync = parse_sync(u.group('sync'))
+        elif k in ('ch', 'mac'):
+            return (sync or set()) | {cur}
+    return set()
+
+
 def find_first(s):
-    """最初の誤り（まだ話していないスコープに付いた \\n\\n[half]）の (開始, 終了, スコープ) を返す。"""
+    """最初の誤りの (開始, 終了, スコープの一覧) を返す。誤りは次のどちらか。
+
+    - まだ話していないスコープの中に \\n\\n[half] がある。
+    - \\n\\n[half] のあとで、まだ話していないスコープが最初に話す。
+    """
     cur = 0
     spoken = set()
     sync = None
-    for t in TOK.finditer(s):
+    toks = list(TOK.finditer(s))
+    for i, t in enumerate(toks):
         k = t.lastgroup
         if k == 'scope':
             cur = int(t.group('pn')) if t.group('pn') else SCOPE[t.group('scope')]
         elif k == 'sync':
-            g = t.group('sync')
-            sync = None if g == '\\_s' else {int(x) for x in g[4:-1].split(',') if x}
+            sync = parse_sync(t.group('sync'))
         elif k == 'half':
             if cur not in spoken:
-                return t.start(), t.end(), cur
+                return t.start(), t.end(), [cur]
+            first = sorted(next_speakers(toks, i, cur, sync) - spoken)
+            if first:
+                return t.start(), t.end(), first
         elif k == 'ch':
             spoken.add(cur)
             if sync:
@@ -73,7 +98,8 @@ def main(argv):
                     return m.group(0)
                 while (r := find_first(body)) is not None:
                     count += 1
-                    message = f'スコープ {r[2]} の最初の発話に {HALF} がある'
+                    who = ', '.join(str(x) for x in r[2])
+                    message = f'スコープ {who} の最初の発話に {HALF} がある'
                     print(f'{f}:{i + 1}: {message}: '
                           f'…{body[max(0, r[0] - 20):r[0]]}[{HALF}]{body[r[1]:r[1] + 20]}…')
                     if ANNOTATE and not fix:
