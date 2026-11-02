@@ -1,5 +1,7 @@
 # SHIORIES
 
+![SHIORIES - SHIORI たちが擬人化して、ゴーストを動かす舞台裏を語る](title.png)
+
 Copyright (C) 2006- Ukagaka Tech Team
 
 SHIORI たちが擬人化して、ゴーストを動かす舞台裏を語る、伺か（ukagaka）のゴーストです。

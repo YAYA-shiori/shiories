@@ -1,0 +1,15 @@
+tagline1=SHIORI たちが擬人化して、
+tagline2=ゴーストを動かす舞台裏を語る。
+name0=華和梨
+name1=里々
+name2=文
+bal0a=初めまして、
+bal0b=華和梨です。
+bal1a=里々で～す。
+bal1b=よろしくね♪
+bal2a=…あやです。
+bal2b=お茶、好き。
+menu0=偽ＡＩトーク
+menu1=COMMUNICATEボックス
+menu2=お喋り頻度
+menu3=オプション設定
