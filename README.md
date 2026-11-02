@@ -34,7 +34,8 @@ SHIORI たちが擬人化して、ゴーストを動かす舞台裏を語る、�
 ## 作った人・使用ソフト
 
 - シェル: [ボトル猫](https://catbottle.sakura.ne.jp/)
-- ゴースト: [さとー](http://shobu.hp.infoseek.co.jp)（華和梨担当）、[水無月藍](http://ryouran.mallotus-villosus.net/)（文・里々担当）、[ぽな@ばぐとら](http://ssp.shillest.net/)（雑用）
+- ゴースト: Ukagaka Tech Team
+  - 旧整備班版: さとー（華和梨担当）、水無月藍（文・里々担当）
 - バルーン: Ukagaka Tech Team
 - SHIORI: [YAYA](https://github.com/YAYA-shiori/yaya-shiori)
 - システム辞書: [yaya-dic](https://github.com/YAYA-shiori/yaya-dic)
