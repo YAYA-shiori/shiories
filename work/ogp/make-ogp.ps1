@@ -236,6 +236,14 @@ $fontTitle = New-Font 'Consolas' (28 * 3) $false
 Fill $ink $leftX 52 56 76
 Draw-Text 'S' $fontTitle $bg ($leftX + 5) 40
 Draw-Spaced 'HIORIES' $fontTitle $ink ($leftX + 66) 40 66
+# the subtitle "Block II" (ink-muted, smaller than the title; its baseline is the title's), and the
+# underline drawn from the bottom of the reversed box to the end of the subtitle (the thumbnail does
+# the same, 1px there, 3px here)
+$fontSub = New-Font 'Meiryo' 45 $false
+$subX = 572
+$subEnd = 736
+Draw-Text 'Block II' $fontSub $muted $subX 69
+Fill $ink ($leftX + 56) 125 ($subEnd - ($leftX + 56) + 1) 3
 $fontTag = New-Font 'Meiryo' 26 $false
 Draw-Text $T.tagline1 $fontTag $ink $leftX 168
 Draw-Text $T.tagline2 $fontTag $ink $leftX 210
