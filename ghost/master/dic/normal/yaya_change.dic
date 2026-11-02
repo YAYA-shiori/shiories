@@ -2,6 +2,7 @@
 // SHIORIES
 // ゴースト切り替えのトーク
 // 関数名は「イベント名＋_＋相手の\0側の名前」。無ければ「イベント名＋Other」。それも無ければ OnClose / OnBoot のトーク。
+// 「イベント名＋Other」では、相手の SHIORI（文・里々・華和梨）を Reference3 のパスから判別して、SHIORI ごとの汎用トークを返す。
 //******************************************************************************
 
 
@@ -69,6 +70,50 @@ OnOtherGhostChanged
 
 
 //******************************************************************************
+// 相手のゴーストの SHIORI の判別
+//******************************************************************************
+//ゴーストのパス（Reference3）から、相手を「文」「里々」「華和梨」のどれとして扱うかを返す。判別できなければ空文字列。
+//	ghost/master/ に yaya.dll か aya5.dll があれば「文」、satori.dll があれば「里々」、shiori.dll と kawarirc.kis があれば「華和梨」。
+//	Reference3 があるのは OnGhostChanging（切り替え先）、OnGhostChanged（直前のゴースト）、OnGhostCalling（呼び出し先）、OnGhostCalled（呼び出し元）。
+//_argv[0]	ゴーストのパス（末尾の \ はあってもなくてもよい）
+GhostShioriKind
+{
+	_kind = ''
+	_dir = TOSTR(_argv[0])
+	if _dir != '' {
+		if !RE_SEARCH(_dir,'[\\/]$') {
+			_dir += '/'
+		}
+		_master = _dir + 'ghost/master/'
+		if FSIZE(_master + 'yaya.dll') >= 0 || FSIZE(_master + 'aya5.dll') >= 0 {
+			_kind = '文'
+		}
+		elseif FSIZE(_master + 'satori.dll') >= 0 {
+			_kind = '里々'
+		}
+		elseif FSIZE(_master + 'shiori.dll') >= 0 && FSIZE(_master + 'kawarirc.kis') >= 0 {
+			_kind = '華和梨'
+		}
+	}
+	_kind
+}
+
+//相手の SHIORI ごとの汎用トークを返す。相手が判別できない、またはその SHIORI のトークが無ければ空文字列。
+//_argv[0]	種類（Changing / Changed / Calling / Called）。トークは「Ghost＋種類＋.＋文・里々・華和梨」
+//_argv[1]	ゴーストのパス（Reference3）
+GhostKindTalk
+{
+	_kind = GhostShioriKind(_argv[1])
+	if _kind != '' {
+		_funcname = "Ghost%(_argv[0]).%(_kind)"
+		if ISFUNC(_funcname) {
+			EVAL(_funcname)
+		}
+	}
+}
+
+
+//******************************************************************************
 // 汎用の切り替えトーク
 //******************************************************************************
 OnGhostChangingOther
@@ -78,9 +123,15 @@ OnGhostChangingOther
 		BootShort
 	}
 	else {
-		"\p[3]\s[-1]\p[2]\s[2000]\1\s[1000]\0\s[0]%(_ref0)さんに交代します。\w8\e"
-		"\p[3]\s[-1]\p[2]\s[2000]\0\s[0]\1\s[1005]%(_ref0)さんだね。\w8\nちょっと待ってね～。\w8\n\e"
-		"\p[3]\s[-1]\1\s[1000]\0\s[0]\p[2]\s[2106]%(_ref0)と交代する…\w8…\w8\e"
+		_talk = GhostKindTalk('Changing',reference[3])
+		if _talk != '' {
+			_talk
+		}
+		else {
+			"\p[3]\s[-1]\p[2]\s[2000]\1\s[1000]\0\s[0]%(_ref0)さんに交代します。\w8\e"
+			"\p[3]\s[-1]\p[2]\s[2000]\0\s[0]\1\s[1005]%(_ref0)さんだね。\w8\nちょっと待ってね～。\w8\n\e"
+			"\p[3]\s[-1]\1\s[1000]\0\s[0]\p[2]\s[2106]%(_ref0)と交代する…\w8…\w8\e"
+		}
 	}
 }
 
@@ -94,10 +145,110 @@ OnGhostChangedOther
 		BootLong
 	}
 	else {
-		"\p[3]\s[-1]\p[2]\s[2000]\1\s[1000]\0\s[0]%(_ref0)さん、\w4お疲れ様です。\w8\e"
-		"\p[3]\s[-1]\p[2]\s[2000]\0\s[0]\1\s[1005]%(_ref0)さーん、\w4お疲れ～\w8\nあとはボクたちがやるよ～\w8\n\e"
-		"\p[3]\s[-1]\1\s[1000]\0\s[0]\p[2]\s[2106]%(_ref0)、\w4安らかに眠れ…\w8…\w8。\n\n[half]\0\s[208]文ちゃん、\w4それ思いっきり意味違うから。\w8\n\e"
+		_talk = GhostKindTalk('Changed',reference[3])
+		if _talk != '' {
+			_talk
+		}
+		else {
+			"\p[3]\s[-1]\p[2]\s[2000]\1\s[1000]\0\s[0]%(_ref0)さん、\w4お疲れ様です。\w8\e"
+			"\p[3]\s[-1]\p[2]\s[2000]\0\s[0]\1\s[1005]%(_ref0)さーん、\w4お疲れ～\w8\nあとはボクたちがやるよ～\w8\n\e"
+			"\p[3]\s[-1]\1\s[1000]\0\s[0]\p[2]\s[2106]%(_ref0)、\w4安らかに眠れ…\w8…\w8。\n\n[half]\0\s[208]文ちゃん、\w4それ思いっきり意味違うから。\w8\n\e"
+		}
 	}
+}
+
+//呼び出し先・呼び出し元の SHIORI に応じたトーク。判別できなければ空文字列を返し、汎用のトーク（General_OnGhostCalling / OnBoot のトーク）に回る。
+OnGhostCallingOther
+{
+	GhostKindTalk('Calling',reference[3])
+}
+
+OnGhostCalledOther
+{
+	GhostKindTalk('Called',reference[3])
+}
+
+//------------------------------------------------------------------------------
+// 相手の SHIORI ごとの汎用トーク
+//	GhostKindTalk が呼ぶ。相手が文（yaya.dll / aya5.dll）、里々（satori.dll）、華和梨（shiori.dll + kawarirc.kis）のときだけ。
+//	Changing は切り替え先、Changed は直前のゴースト、Calling は呼び出し先、Called は呼び出し元。
+//------------------------------------------------------------------------------
+GhostChanging.文
+{
+	_ref0 = SHIORI3FW.EscapeAllTags(reference[0])
+	"\p[3]\s[-1]\p[2]\s[2000]\1\s[1000]\0\s[0]%(_ref0)さんは、\w4文ちゃんの同業者ね。\w8\n出番よ。\w8\w8\p[2]\s[2006]…\w4…\w4了解。\w8\e"
+	"\p[3]\s[-1]\p[2]\s[2000]\0\s[0]\1\s[1005]%(_ref0)さんの中の人は、\w4文姉ちゃんだね。\w8\w8\p[2]\s[2005]…\w4…\w4任務、\w4開始。\w8\e"
+}
+
+GhostChanging.里々
+{
+	_ref0 = SHIORI3FW.EscapeAllTags(reference[0])
+	"\p[3]\s[-1]\p[2]\s[2000]\1\s[1000]\0\s[0]%(_ref0)さんは、\w4里々の同業者ね。\w8\nほら、\w4行ってらっしゃい。\w8\w8\1\s[1155]はーい♪\w8\nちょっと中の人してくるね～。\w8\e"
+	"\p[3]\s[-1]\p[2]\s[2000]\0\s[0]\1\s[1005]%(_ref0)さんは、\w4ボクの担当だね♪\w8\nいってきま～す♪\w8\w8\p[2]\s[2006]…\w4…\w4拾い食い禁止。\w8\e"
+}
+
+GhostChanging.華和梨
+{
+	_ref0 = SHIORI3FW.EscapeAllTags(reference[0])
+	"\p[3]\s[-1]\p[2]\s[2000]\1\s[1000]\0\s[0]%(_ref0)さんの中の人は、\w4私ね。\w8\n行ってくるわ。\w8\w8\1\s[1005]いってらっしゃ～い♪\w8\w8\p[2]\s[2005]…\w4…\w4お土産。\w8\e"
+	"\p[3]\s[-1]\p[2]\s[2000]\0\s[0]\1\s[1005]%(_ref0)さんは、\w4華和梨姉の同業者だね。\w8\w8\h\s[5]そうよ。\w8\n久しぶりに腕が鳴るわ。\w8\e"
+}
+
+GhostChanged.文
+{
+	_ref0 = SHIORI3FW.EscapeAllTags(reference[0])
+	"\p[3]\s[-1]\p[2]\s[2000]\1\s[1000]\0\s[0]%(_ref0)さんの中の人、\w4文ちゃんだったのね。\w8\nお疲れ様。\w8\w8\p[2]\s[2004]…\w4…\w4疲れた。\w8\e"
+	"\p[3]\s[-1]\p[2]\s[2000]\0\s[0]\1\s[1005]文姉ちゃん、\w4%(_ref0)さんのお仕事おかえり～。\w8\w8\p[2]\s[2005]…\w4…\w4ただいま。\w8\e"
+}
+
+GhostChanged.里々
+{
+	_ref0 = SHIORI3FW.EscapeAllTags(reference[0])
+	"\p[3]\s[-1]\p[2]\s[2000]\0\s[0]\1\s[1005]ただいま～♪\w8\n%(_ref0)さんの中の人、\w4楽しかったよ～。\w8\w8\h\s[5]お帰りなさい。\w8\n里々、\w4張り切りすぎなかった？\w8\e"
+	"\p[3]\s[-1]\p[2]\s[2000]\0\s[0]\1\s[1005]%(_ref0)さん、\w4ボクの仲間だったよ！\w8\nなんだか親戚みたいだったな～。\w8\e"
+}
+
+GhostChanged.華和梨
+{
+	_ref0 = SHIORI3FW.EscapeAllTags(reference[0])
+	"\p[3]\s[-1]\p[2]\s[2000]\1\s[1000]\0\s[5]ただいま。\w8\n%(_ref0)さんの中の人、\w4久しぶりで楽しかったわ。\w8\w8\1\s[1005]お帰りなさ～い♪\w8\e"
+	"\p[3]\s[-1]\1\s[1000]\0\s[0]\p[2]\s[2005]…\w4…\w4華和梨姉の同業者、\w4%(_ref0)さん。\w8\w8\h\s[5]そうよ。\w8\nちゃんと務めてきたわ。\w8\e"
+}
+
+GhostCalling.文
+{
+	_ref0 = SHIORI3FW.EscapeAllTags(reference[0])
+	"\p[3]\s[-1]\p[2]\s[2000]\1\s[1000]\0\s[0]%(_ref0)さんの呼び出し開始です。\w8\n文ちゃんの同業者ね。\w8\w8\p[2]\s[2006]…\w4…\w4話が合いそう。\w8\e"
+}
+
+GhostCalling.里々
+{
+	_ref0 = SHIORI3FW.EscapeAllTags(reference[0])
+	"\p[3]\s[-1]\p[2]\s[2000]\1\s[1000]\0\s[0]%(_ref0)さんの呼び出し開始です。\w8\w8\1\s[1155]ボクの仲間だー♪\w8\e"
+}
+
+GhostCalling.華和梨
+{
+	_ref0 = SHIORI3FW.EscapeAllTags(reference[0])
+	"\p[3]\s[-1]\p[2]\s[2000]\1\s[1000]\0\s[0]%(_ref0)さんの呼び出し開始です。\w8\n私の同業者ね。\w8\w8\p[2]\s[2005]…\w4…\w4仲良く。\w8\e"
+}
+
+GhostCalled.文
+{
+	_ref0 = SHIORI3FW.EscapeAllTags(reference[0])
+	"\p[3]\s[-1]\p[2]\s[2000]\1\s[1000]\0\s[0]%(_ref0)さんに呼ばれたわ。\w8\n文ちゃんの同業者ね。\w8\w8\p[2]\s[2005]…\w4…\w4呼ばれた。\w8\e"
+}
+
+GhostCalled.里々
+{
+	_ref0 = SHIORI3FW.EscapeAllTags(reference[0])
+	"\p[3]\s[-1]\p[2]\s[2000]\1\s[1000]\0\s[0]%(_ref0)さんに呼ばれたわ。\w8\w8\1\s[1155]ボクの仲間だー♪\w8\e"
+}
+
+GhostCalled.華和梨
+{
+	_ref0 = SHIORI3FW.EscapeAllTags(reference[0])
+	"\p[3]\s[-1]\p[2]\s[2000]\1\s[1000]\0\s[0]%(_ref0)さんに呼ばれたわ。\w8\n私の同業者ね。\w8\w8\p[2]\s[2005]…\w4…\w4仲良く。\w8\e"
 }
 
 

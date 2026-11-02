@@ -59,7 +59,7 @@
 | `yaya_bootend.dic` | 初回起動 `OnFirstBoot`、起動 `OnBoot`（時間帯ごとに `Boot_*`）、終了 `OnClose`（`Close_*`） |
 | `yaya_mouse.dic` | マウスへの反応。関数名は「種別＋スコープ番号＋当たり判定名」。撫で反応は段階式（`StrokeLimit*` `StrokeLoop*` `MouseMove*_<段階>`）。`OnMouseDown` は何も話さず、最後に押されたキャラを `menuscope` に覚える（右クリックメニューの見た目の切り替え用）。あやりりす（システム辞書）の同名の `OnMouseDown` ではなく、こちらが呼ばれる（`shiori.ps1` で確かめた） |
 | `yaya_menu.dic` | メニュー `OpenMenu` と、選択肢ごとの処理 `Menu_*`、ユーザー名の変更 |
-| `yaya_change.dic` | ゴーストの切り替え。`OnGhostChanging_<相手の\0側の名前>` `OnGhostChanged_<…>`、無ければ `…Other` |
+| `yaya_change.dic` | ゴーストの切り替え・呼び出し。`OnGhostChanging_<相手の\0側の名前>` `OnGhostChanged_<…>`、無ければ `…Other`。`…Other` は、Reference3（ゴーストのパス）から相手の SHIORI を `GhostShioriKind` で判別し（`ghost/master/` に yaya.dll か aya5.dll があれば文、satori.dll なら里々、shiori.dll と kawarirc.kis なら華和梨）、`Ghost<Changing\|Changed\|Calling\|Called>.<文\|里々\|華和梨>` の汎用トークを返す（`GhostKindTalk`）。判別できなければ従来の汎用トーク。Reference3 があるのは `OnGhostChanging`（切り替え先）`OnGhostChanged`（直前のゴースト）`OnGhostCalling`（呼び出し先）`OnGhostCalled`（呼び出し元）だけ |
 | `yaya_communicate.dic` | ユーザー・他のゴーストとの会話（`ReplyTo*` `TalkTo*`） |
 | `yaya_etc.dic` | 汎用イベントトーク（インストール、更新、メール等）、最小化復帰、消滅指示、時計合わせ、ヘッドライン、スクリーンセーバー終了、壁紙の変更、解像度の変更 |
 | `yaya_notify.dic` | カレンダー、「きのこ」「猫どりふ」、MATERIA、システムリソースの通知への反応 |
