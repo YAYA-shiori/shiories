@@ -21,6 +21,9 @@
 /.narignore
 /.updateignore
 
+# metainfo for web apps (read from GitHub; the ghost does not need it)
+/.ukagaka/
+
 # balloon images of sstp.ps1 -Balloon, left only when the script was stopped midway
 /ghost/master/devkit-balloon-*/
 

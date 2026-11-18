@@ -15,6 +15,9 @@ craftman,UkagakaTechTeam
 craftmanw,Ukagaka Tech Team
 craftmanurl,https://ukatech.shillest.net/
 
+metainfo,https://raw.githubusercontent.com/YAYA-shiori/shiories/main/.ukagaka/
+githubrepo,https://github.com/YAYA-shiori/shiories
+
 shiori,yaya.dll
 icon,icon.ico
 balloon,shiories_balloon

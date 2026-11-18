@@ -1,0 +1,10 @@
+//meta info
+type,ghost
+name,SHIORIES
+uuid,NBtrqNOxkOBBblthMZSFAQ==
+sakura.name,華和梨
+kero.name,里々
+has_terms,0
+craftman,Ukagaka Tech Team
+craftmanurl,https://ukatech.shillest.net/
+languages,ja

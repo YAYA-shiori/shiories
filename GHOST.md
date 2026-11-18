@@ -13,6 +13,7 @@
 - nar は GitHub Releases にも置く。タグ `latest` の Release 1 件だけを持ち、デプロイのたびに前の Release をタグごと消して、最新の nar 1 つで作り直す（`auto_deploy.yml` の `release` ジョブ。Pages のデプロイが成功したあとに動く）。固定の URL は `https://github.com/YAYA-shiori/shiories/releases/latest/download/shiories.nar`。
 - 同梱バルーン `shiories_balloon/` は nar には入れるが、ゴーストの更新ファイルには入れない（`.updateignore`）。バルーンには単独の `updates2.dau` と `updates.txt` を作り、`https://yaya-shiori.github.io/shiories/shiories_balloon/` に出す。`shiories_balloon/descript.txt` の `homeurl` がそこを指す。どのバルーンを対象にするかは、`install.txt` の `balloon.directory`（と `balloon.source.directory`）から読む。
 - 旧版の利用者は、旧版が報告する `http://ms.shillest.net/ghost/shiories/` から更新する。この版を届けるには、そちらにも公開する必要がある。
+- Web アプリ向けの情報（metainfo standard）は、リポジトリ直下の `.ukagaka/descript.txt` に置く。URL は `https://raw.githubusercontent.com/YAYA-shiori/shiories/main/.ukagaka/` で、`uuid` はこの URL から決まる（変えると UUID も変わる）。`ghost/master/descript.txt` の `metainfo` と `githubrepo` がここを指す。nar と更新ファイルには入れない（`.narignore`）。プレビュー画像と `icon.png` は置いていない（シェルの画像の再配布条件が決まっていないため。`icon.ico` は 32px の BMP 形式で、PNG として取り出せない）。
 - ゴーストの説明（遊び方、インストール、作った人、ライセンス、連絡先、履歴）は `README.md` 1 つにまとめてある。Markdown で書く。SSP が読む利用者向けの説明で、GitHub のトップにも出る。`readme.txt` は置かない。`README.md` の先頭の画像と、GitHub の Social preview（OGP）には、ルートの `title.png`（1280x640）を使う。`work/ogp/make-ogp.ps1` で作る（`DESIGN.md` の「紹介画像」）。
 
 ## ライセンス
